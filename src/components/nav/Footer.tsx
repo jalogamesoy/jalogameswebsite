@@ -90,6 +90,14 @@ export function Footer() {
             </li>
             <li>
               <Link
+                href="/press"
+                className="transition-colors hover:text-text"
+              >
+                Press
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/privacy"
                 className="transition-colors hover:text-text"
               >

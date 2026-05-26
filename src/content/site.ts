@@ -153,6 +153,80 @@ export const nav: { label: string; href: string }[] = [
 export const headerCta = { label: "Work with us", href: "/contact" } as const;
 
 /**
+ * Press kit content. Lives on /press. Servers two audiences with the
+ * same page: journalists writing about indie studios, and brand
+ * procurement teams researching us before sending a brief.
+ */
+export const press = {
+  /** One-paragraph studio summary, quotable. */
+  summary:
+    "JaloGames is an independent game studio from Finland building original games, branded mobile and HTML5 experiences, and immersive Fortnite UEFN worlds. The studio's previous work (Kouvola) became the most-played Fortnite Creative experience in Finland, with millions of plays and major YouTuber coverage. Three original titles are in active development.",
+  /** Quick fact rows. Each renders as a label + value line. */
+  facts: [
+    { label: "Studio name", value: "JaloGames (legally Jalo Games Oy)" },
+    { label: "Location", value: "Helsinki, Finland" },
+    { label: "Founded", value: "2024" },
+    { label: "Founder", value: "Jalo Tuomi (Founder & CEO)" },
+    {
+      label: "Focus",
+      value:
+        "Original IP · Branded mobile games · Fortnite UEFN experiences · HTML5 browser games",
+    },
+    {
+      label: "Engines & tools",
+      value: "Unreal Engine 5 · Godot · HTML5 · Blender · AI-assisted production",
+    },
+    { label: "Email", value: "jalo@jalogames.fi" },
+    { label: "Website", value: "jalogames.fi" },
+  ],
+  /** Quotable one-liners journalists can lift verbatim. */
+  quotables: [
+    "We don't follow the industry. We outbuild it.",
+    "Games aren't made. They're built.",
+    "Most studios pitch with a deck. We'd rather show you the receipts.",
+    "Speed isn't about rushing. It's about removing everything that doesn't matter.",
+    "If it feels average, it doesn't ship.",
+  ],
+  /** Headline track-record receipts. */
+  receipts: [
+    "12M+ minutes played across published games",
+    "Kouvola — Finland's #1 Fortnite Creative experience",
+    "5 000+ followers in Fortnite",
+    "4 000+ followers across TikTok and YouTube",
+    "3 original titles in active development",
+  ],
+  /** Brand assets available for download. Paths point at /public. */
+  assets: [
+    {
+      label: "Wordmark — SVG (white, transparent)",
+      href: "/brand/wordmark.svg",
+      mime: "image/svg+xml",
+    },
+    {
+      label: "Wordmark — PNG (large)",
+      href: "/brand/wordmark.png",
+      mime: "image/png",
+    },
+    {
+      label: "Founder portrait — JPG",
+      href: "/contact/jalo-tuomi.jpg",
+      mime: "image/jpeg",
+    },
+  ],
+  /** Brand colour swatches (for designers / press graphics). */
+  palette: [
+    { name: "Bg navy", hex: "#070b1f" },
+    { name: "Surface", hex: "#0d1330" },
+    { name: "Accent warm (amber)", hex: "#f5944a" },
+    { name: "Accent cool", hex: "#8aa0ff" },
+    { name: "Text", hex: "#fafafa" },
+  ],
+  /** Usage guidelines (mirrors the /terms press carve-out). */
+  usage:
+    "Journalists and editorial writers may use up to two screenshots, the wordmark, and short quotes from this site without asking — please credit JaloGames. For anything larger, write to jalo@jalogames.fi.",
+} as const;
+
+/**
  * Founder card data. Used on the Contact page above the email block
  * so visitors can see who they'll actually be talking to.
  */
