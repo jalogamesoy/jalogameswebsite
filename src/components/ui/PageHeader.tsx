@@ -13,7 +13,10 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <section className="relative isolate overflow-hidden border-b border-border">
+    <section
+      data-reveal
+      className="relative isolate overflow-hidden border-b border-border"
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"

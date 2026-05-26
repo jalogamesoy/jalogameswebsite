@@ -9,6 +9,7 @@ export function BuiltWith() {
   return (
     <section
       aria-labelledby="built-with-heading"
+      data-reveal
       className="relative isolate overflow-hidden border-b border-border bg-bg"
     >
       <div

@@ -10,6 +10,7 @@ export function CtaStrip() {
   return (
     <section
       aria-labelledby="cta-strip-heading"
+      data-reveal
       className="relative isolate overflow-hidden border-b border-border bg-bg"
     >
       <div

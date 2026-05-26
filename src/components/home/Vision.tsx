@@ -9,6 +9,7 @@ export function Vision() {
   return (
     <section
       aria-labelledby="vision-heading"
+      data-reveal
       className="relative isolate overflow-hidden border-b border-border bg-surface"
     >
       <div

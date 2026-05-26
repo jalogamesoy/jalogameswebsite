@@ -9,6 +9,7 @@ export function ClosingKicker() {
   return (
     <section
       aria-label="JaloGames signature beliefs"
+      data-reveal
       className="relative isolate overflow-hidden border-b border-border bg-bg"
     >
       <div className="mx-auto max-w-5xl px-4 py-28 sm:px-6 sm:py-36 lg:px-8">

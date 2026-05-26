@@ -108,3 +108,45 @@ body {
   background: var(--accent-warm);
   color: var(--bg);
 }
+
+/* ---------------------------------------------------------------------
+   Motion & FX (Phase 3A)
+   --------------------------------------------------------------------- */
+
+/* Scroll reveal — applied by RevealController to every [data-reveal]
+   element as it scrolls into view. Translate + fade reads as a gentle
+   "rise" rather than a slam. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom cursor — hide the native one when the React cursor is mounted.
+   The class is added by <Cursor /> and removed on unmount, so non-JS
+   visitors keep the native cursor. Reduced-motion users never get the
+   class because Cursor.tsx short-circuits. */
+.cursor-custom,
+.cursor-custom * {
+  cursor: none !important;
+}
+
+/* Reduced motion: undo every fancy thing in one place. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .cursor-custom,
+  .cursor-custom * {
+    cursor: auto !important;
+  }
+}

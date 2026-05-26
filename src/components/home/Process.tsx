@@ -9,6 +9,7 @@ export function Process() {
   return (
     <section
       aria-labelledby="process-heading"
+      data-reveal
       className="border-b border-border bg-surface"
     >
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
