@@ -6,6 +6,7 @@ import { CtaStrip } from "@/components/home/CtaStrip";
 import {
   craft,
   founder,
+  journey,
   principles,
   studio,
   studioStats,
@@ -126,6 +127,78 @@ export default function StudioPage() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Founder journey — vertical timeline */}
+      <section
+        data-reveal
+        aria-labelledby="journey-heading"
+        className="relative border-b border-border bg-bg"
+      >
+        <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6 sm:py-28 lg:px-8">
+          <div className="mb-16 text-center">
+            <p className="eyebrow mb-3">— The journey —</p>
+            <h2
+              id="journey-heading"
+              className="font-display text-balance text-3xl uppercase leading-[1.05] tracking-[0.01em] text-text sm:text-4xl md:text-5xl"
+            >
+              How we got here.
+            </h2>
+          </div>
+
+          {/* Timeline. The vertical line is a thin gradient on the left
+              (mobile) / centre (desktop); each milestone is a numbered
+              node + content panel offset to one side. */}
+          <ol className="relative space-y-12 before:absolute before:left-4 before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-accent-warm/40 before:via-border before:to-transparent sm:before:left-1/2 sm:before:-translate-x-1/2">
+            {journey.map((step, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <li
+                  key={step.title}
+                  className="relative grid gap-4 pl-12 sm:grid-cols-2 sm:gap-10 sm:pl-0"
+                >
+                  {/* Node — round numbered dot on the line */}
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-1 inline-flex size-8 items-center justify-center rounded-full border-2 border-accent-warm bg-bg font-display text-[10px] uppercase tracking-[0.16em] text-accent-warm sm:left-1/2 sm:-translate-x-1/2"
+                  >
+                    0{i + 1}
+                  </span>
+
+                  {/* Period label — sits on its own column at desktop,
+                      stacks above title on mobile. */}
+                  <div
+                    className={`${
+                      isEven
+                        ? "sm:text-right sm:pr-12"
+                        : "sm:col-start-2 sm:pl-12"
+                    }`}
+                  >
+                    <p className="font-display text-xs uppercase tracking-[0.24em] text-accent-warm">
+                      {step.period}
+                    </p>
+                  </div>
+
+                  {/* Content panel */}
+                  <div
+                    className={`rounded-2xl border border-border bg-surface p-6 ${
+                      isEven
+                        ? "sm:col-start-2 sm:pl-6"
+                        : "sm:col-start-1 sm:row-start-1 sm:pr-6 sm:text-right"
+                    }`}
+                  >
+                    <h3 className="font-display text-xl uppercase tracking-[0.02em] text-text sm:text-2xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </section>
 

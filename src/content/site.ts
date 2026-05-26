@@ -165,6 +165,41 @@ export const founder = {
 } as const;
 
 /**
+ * Founder journey — the long-arc story on /studio. Reads as a
+ * chronological proof that Jalo has been shipping playable things
+ * to audiences since age 7, not just starting now. Powerful B2B
+ * trust signal (brand teams want to know if you can actually ship).
+ */
+export type JourneyMilestone = {
+  period: string; // "Age 7", "High school", "Fortnite UEFN", "Today"
+  title: string;
+  body: string;
+};
+
+export const journey: JourneyMilestone[] = [
+  {
+    period: "Age 7",
+    title: "Minecraft communities",
+    body: "Started building and running Finnish Minecraft servers. Learned community-building before learning to code — what makes players come back, what makes them quit, what makes a world feel alive.",
+  },
+  {
+    period: "High school",
+    title: "First games in Python",
+    body: "Self-taught Python from scratch, then Pygame. Built every system by hand — render loops, input handlers, collision math. No engines, no abstractions, no shortcuts.",
+  },
+  {
+    period: "Fortnite UEFN",
+    title: "Kouvola — Finland's #1 map",
+    body: "Built Kouvola, the most-played Fortnite Creative experience in Finland. Streamed by major YouTubers, played millions of times. Proof that a small operator can outbuild much bigger teams.",
+  },
+  {
+    period: "Today",
+    title: "JaloGames the studio",
+    body: "Three games in active development across mobile, browser, and Fortnite. Same conviction that started on a Minecraft server at age 7 — backed by a team that ships.",
+  },
+];
+
+/**
  * Credibility stats — appear on the Studio page (and previously seeded
  * the marquee). Update freely as the numbers grow; each one is a hard
  * receipt against the "we make games people actually play" claim.
