@@ -180,9 +180,12 @@ export default function StudioPage() {
                     </p>
                   </div>
 
-                  {/* Content panel — gets an optional image when the
-                      milestone carries one (e.g. Kouvola) for visual
-                      receipt. Otherwise text-only, same card chrome. */}
+                  {/* Content panel. Three visual modes:
+                      - imageStack of 3 → triptych composition (used
+                        for the "Today" milestone showing the studio's
+                        slate at a glance)
+                      - single image → 16:10 hero shot above text
+                      - neither → text only with same card chrome */}
                   <div
                     className={`overflow-hidden rounded-2xl border border-border bg-surface ${
                       isEven
@@ -190,7 +193,46 @@ export default function StudioPage() {
                         : "sm:col-start-1 sm:row-start-1 sm:pr-0 sm:text-right"
                     }`}
                   >
-                    {step.image ? (
+                    {step.imageStack && step.imageStack.length === 3 ? (
+                      <div className="relative aspect-[16/10] overflow-hidden bg-bg">
+                        {/* Back-left card */}
+                        <div className="absolute left-[6%] top-[22%] w-[42%] -rotate-[8deg] overflow-hidden rounded-xl border border-border-strong shadow-[0_12px_24px_-8px_rgba(0,0,0,0.5)]">
+                          <div className="relative aspect-[4/3]">
+                            <Image
+                              src={step.imageStack[1].src}
+                              alt={step.imageStack[1].alt}
+                              fill
+                              sizes="(min-width: 640px) 16vw, 32vw"
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                        {/* Back-right card */}
+                        <div className="absolute right-[6%] top-[22%] w-[42%] rotate-[8deg] overflow-hidden rounded-xl border border-border-strong shadow-[0_12px_24px_-8px_rgba(0,0,0,0.5)]">
+                          <div className="relative aspect-[4/3]">
+                            <Image
+                              src={step.imageStack[2].src}
+                              alt={step.imageStack[2].alt}
+                              fill
+                              sizes="(min-width: 640px) 16vw, 32vw"
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                        {/* Front-center card */}
+                        <div className="absolute left-1/2 top-[6%] w-[54%] -translate-x-1/2 overflow-hidden rounded-xl border border-border-strong shadow-[0_18px_32px_-10px_rgba(0,0,0,0.7)]">
+                          <div className="relative aspect-[4/3]">
+                            <Image
+                              src={step.imageStack[0].src}
+                              alt={step.imageStack[0].alt}
+                              fill
+                              sizes="(min-width: 640px) 22vw, 44vw"
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ) : step.image ? (
                       <div className="relative aspect-[16/10] overflow-hidden">
                         <Image
                           src={step.image}

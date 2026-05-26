@@ -175,11 +175,15 @@ export type JourneyMilestone = {
   period: string; // "Age 7", "High school", "Fortnite UEFN", "Today"
   title: string;
   body: string;
-  /** Optional supporting image (relative to /public). Renders inside
-   *  the milestone card when present; layout falls back to text-only
-   *  when absent so the timeline stays visually consistent. */
+  /** Optional single supporting image (relative to /public). Used
+   *  when there's one artefact worth showing for the milestone. */
   image?: string;
   imageAlt?: string;
+  /** Alternative to `image` for "portfolio moments" — renders a
+   *  stack of 3 tilted thumbnails (center forward, sides rotated)
+   *  echoing the homepage hero composition. Use when one image
+   *  can't carry the milestone (e.g. "today" = multiple projects). */
+  imageStack?: { src: string; alt: string }[];
 };
 
 export const journey: JourneyMilestone[] = [
@@ -187,11 +191,17 @@ export const journey: JourneyMilestone[] = [
     period: "Age 7",
     title: "Minecraft communities",
     body: "Started building and running Finnish Minecraft servers. Learned community-building before learning to code — what makes players come back, what makes them quit, what makes a world feel alive.",
+    image: "/studio/minecraft-server.png",
+    imageAlt:
+      "First Minecraft server screenshot — the player character MiniMaster101 in a wooden interior build",
   },
   {
     period: "High school",
     title: "First games in Python",
     body: "Self-taught Python from scratch, then Pygame. Built every system by hand — render loops, input handlers, collision math. No engines, no abstractions, no shortcuts.",
+    image: "/studio/python-first-game.png",
+    imageAlt:
+      "First Pygame project — minimalist geometric arena with crates and a small red target",
   },
   {
     period: "Fortnite UEFN",
@@ -205,6 +215,20 @@ export const journey: JourneyMilestone[] = [
     period: "Today",
     title: "JaloGames the studio",
     body: "Three games in active development across mobile, browser, and Fortnite. Same conviction that started on a Minecraft server at age 7 — backed by a team that ships.",
+    imageStack: [
+      {
+        src: "/games/ramba-bull/card.png",
+        alt: "Ramba Bull — action platformer in development at JaloGames",
+      },
+      {
+        src: "/studio/kouvola.png",
+        alt: "Kouvola — JaloGames' most-played Fortnite experience",
+      },
+      {
+        src: "/studio/grace-portrait.png",
+        alt: "Grace Run — premium endless runner in development at JaloGames",
+      },
+    ],
   },
 ];
 
