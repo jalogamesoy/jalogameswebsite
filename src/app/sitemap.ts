@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { games } from "@/content/games";
+import { getAllPosts } from "@/lib/journal";
 import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -58,5 +59,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...gameRoutes];
+  const journalIndex: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/journal`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+  ];
+
+  const journalRoutes: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+    url: `${SITE_URL}/journal/${post.slug}`,
+    lastModified: new Date(post.frontmatter.date),
+    changeFrequency: "yearly",
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...gameRoutes,
+    ...journalIndex,
+    ...journalRoutes,
+  ];
 }

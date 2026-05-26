@@ -144,6 +144,7 @@ export const ctaStrip = {
 export const nav: { label: string; href: string }[] = [
   { label: "Games", href: "/games" },
   { label: "Studio", href: "/studio" },
+  { label: "Journal", href: "/journal" },
   { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ];
