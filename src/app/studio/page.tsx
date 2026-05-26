@@ -5,6 +5,7 @@ import { studio } from "@/content/site";
 export const metadata: Metadata = {
   title: "Studio",
   description: `${studio.name} is a Helsinki-based independent game studio building original IP and branded campaigns for ambitious brands.`,
+  alternates: { canonical: "/studio" },
 };
 
 export default function StudioPage() {

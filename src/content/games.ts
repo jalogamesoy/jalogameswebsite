@@ -22,6 +22,14 @@ export type Game = {
   pitch: string; // 50-80 words, placeholder until you write real copy
   platforms: string[];
   releaseWindow: string; // "In Development" | "Q2 2026" | "Released"
+  /**
+   * Pre-composed card image for the homepage / games index. Beautiful
+   * but heavy — has the title, "IN DEVELOPMENT" pill, and CTA baked in.
+   * If null, the GameCard component falls back to a CSS-built card using
+   * the first screenshot. (Stealin Apples currently falls back until
+   * the corrected card art lands.)
+   */
+  cardImage: string | null;
   /** Screenshots paths relative to /public, in display order. */
   screenshots: string[];
   /** Optional hero video. Gitignored locally — host on Vercel Blob/Mux
@@ -47,6 +55,7 @@ export const games: Game[] = [
       "A side-scrolling action platformer where you brawl through vikings, giants, and armored airships across Nordic mountainsides. Bright, fast, and mobile-first — built for one-handed runs between meetings.",
     platforms: ["Mobile (iOS / Android)", "Browser (HTML5)"],
     releaseWindow: "In Development",
+    cardImage: "/games/ramba-bull/card.png",
     screenshots: [
       "/games/ramba-bull/screenshot-1.png",
       "/games/ramba-bull/screenshot-2.png",
@@ -68,6 +77,7 @@ export const games: Game[] = [
       "A premium 3D endless runner with a robed savior, sand-blasted ruins, and a lava chasm that does not negotiate. Minimalist, modern, replayable — and aware of itself in a way the genre usually isn't.",
     platforms: ["Mobile (iOS / Android)"],
     releaseWindow: "In Development",
+    cardImage: "/games/grace-run/card.png",
     screenshots: [
       "/games/grace-run/screenshot-1.png",
       "/games/grace-run/screenshot-2.png",
@@ -85,6 +95,10 @@ export const games: Game[] = [
       "A pixel-art stealth puzzler about an orchard, a grumpy grandpa, and the noble art of fruit theft. Quick rounds, escalating risk, designed to spread. Charm dialed to maximum.",
     platforms: ["Mobile (iOS / Android)"],
     releaseWindow: "In Development",
+    // The provided card.png reads "STEALING APPLES" (with G) and is being
+    // redone with the canonical name. Until then, the GameCard component
+    // falls back to a CSS-built card using the first screenshot.
+    cardImage: null,
     screenshots: [
       "/games/stealin-apples/screenshot-1.png",
       "/games/stealin-apples/screenshot-2.png",

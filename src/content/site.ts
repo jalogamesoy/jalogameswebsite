@@ -108,3 +108,15 @@ export const nav: { label: string; href: string }[] = [
 
 /** Primary header CTA. */
 export const headerCta = { label: "Work with us", href: "/contact" } as const;
+
+/**
+ * Studio-wide social profiles. Render order matters — first one is the
+ * priority pick. Used in the footer and added to JSON-LD `sameAs`.
+ */
+export const social: { label: string; href: string }[] = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/jalo-games-oy",
+  },
+  // Add MobyGames, GitHub org, YouTube, Discord etc. as they come online.
+];

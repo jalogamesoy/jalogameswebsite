@@ -17,13 +17,21 @@ export async function generateMetadata(
   const { slug } = await params;
   const game = getGameBySlug(slug);
   if (!game) return {};
+  const ogImage = game.cardImage ?? game.screenshots[0];
   return {
     title: game.title,
     description: game.pitch,
+    alternates: { canonical: `/games/${game.slug}` },
     openGraph: {
       title: `${game.title} — ${game.subtitle}`,
       description: game.pitch,
-      images: game.screenshots[0] ? [game.screenshots[0]] : undefined,
+      images: ogImage ? [ogImage] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${game.title} — ${game.subtitle}`,
+      description: game.pitch,
+      images: ogImage ? [ogImage] : undefined,
     },
   };
 }

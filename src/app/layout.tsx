@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, Saira } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/nav/Header";
 import { Footer } from "@/components/nav/Footer";
 import { SITE_CONFIG, SITE_URL } from "@/lib/site";
-import { studio } from "@/content/site";
+import { social, studio } from "@/content/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,10 +17,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const saira = Saira({
+  variable: "--font-saira",
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_CONFIG.name, url: SITE_URL }],
   creator: SITE_CONFIG.name,
   publisher: SITE_CONFIG.name,
-  alternates: {
-    canonical: "/",
-  },
+  // Per-page metadata sets its own alternates.canonical. Root only
+  // provides metadataBase; canonical defaults to the current path so
+  // /games gets canonical /games, /games/ramba-bull gets its own, etc.
   openGraph: {
     type: "website",
     locale: SITE_CONFIG.locale,
@@ -74,7 +74,9 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-/** Organization JSON-LD — every page inherits this via the root layout. */
+/** Organization JSON-LD — every page inherits this via the root layout.
+ *  `sameAs` carries our verified external profiles, which is one of the
+ *  strongest signals AI search engines use to confirm a brand's identity. */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -89,6 +91,7 @@ const organizationJsonLd = {
     addressLocality: "Helsinki",
     addressCountry: "FI",
   },
+  sameAs: social.map((s) => s.href),
 } as const;
 
 export default function RootLayout({
@@ -99,7 +102,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${saira.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text">
         <script

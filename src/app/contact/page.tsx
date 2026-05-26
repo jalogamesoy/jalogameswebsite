@@ -5,6 +5,7 @@ import { studio } from "@/content/site";
 export const metadata: Metadata = {
   title: "Contact",
   description: `Brief ${studio.name} on your next branded mobile game or Fortnite experience. We reply within one working day.`,
+  alternates: { canonical: "/contact" },
 };
 
 const briefingChecklist = [

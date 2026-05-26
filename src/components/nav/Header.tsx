@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Wordmark } from "@/components/brand/Wordmark";
 import { headerCta, nav, studio } from "@/content/site";
 import { MobileNav } from "./MobileNav";
 
@@ -15,17 +15,9 @@ export function Header() {
         <Link
           href="/"
           aria-label={`${studio.name} home`}
-          className="flex shrink-0 items-center"
+          className="flex shrink-0 items-center text-text transition-colors hover:text-accent-warm"
         >
-          <Image
-            src="/brand/wordmark.png"
-            alt={studio.wordmarkAlt}
-            width={92}
-            height={56}
-            priority
-            sizes="(max-width: 640px) 72px, 92px"
-            className="h-10 w-auto sm:h-12"
-          />
+          <Wordmark className="h-9 w-auto sm:h-11" />
         </Link>
 
         {/* Desktop nav */}
@@ -37,7 +29,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium uppercase tracking-[0.14em] text-text-muted transition-colors hover:text-text"
+              className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-text-muted transition-colors hover:text-text"
             >
               {item.label}
             </Link>
@@ -47,7 +39,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link
             href={headerCta.href}
-            className="hidden md:inline-flex h-10 items-center justify-center rounded-full border border-border-strong bg-surface px-5 text-xs font-semibold uppercase tracking-[0.14em] text-text transition-colors hover:border-accent-warm hover:text-accent-warm"
+            className="hidden md:inline-flex h-10 items-center justify-center rounded-full border border-border-strong bg-surface px-5 font-display text-xs font-semibold uppercase tracking-[0.18em] text-text transition-colors hover:border-accent-warm hover:text-accent-warm"
           >
             {headerCta.label}
             <span aria-hidden className="ml-2">

@@ -5,6 +5,7 @@ import { studio } from "@/content/site";
 export const metadata: Metadata = {
   title: "Careers",
   description: `${studio.name} is a small, focused team. We're not running a public hiring round right now — but we read every thoughtful message.`,
+  alternates: { canonical: "/careers" },
 };
 
 export default function CareersPage() {
