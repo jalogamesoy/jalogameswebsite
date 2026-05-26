@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JaloGames
 
-## Getting Started
+> Independent game studio from Finland. We don't follow the industry — we outbuild it.
 
-First, run the development server:
+We build **original games**, **branded mobile games**, **Fortnite (UEFN) experiences**, and **HTML5 browser experiences**. Helsinki-based, founded 2024 by [Jalo Tuomi](https://www.linkedin.com/in/jalotuomi/).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What we ship
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🎮 **Original IP** — three games in active development:
+  - **Ramba Bull** — action platformer (mobile + browser)
+  - **Grace Run** — premium endless runner (mobile)
+  - **Stealin Apples** — pixel-art stealth puzzler (mobile)
+- 🧱 **Branded campaigns** — Fortnite UEFN experiences, mobile games, and HTML5 playables for brand teams that need a campaign shipped in weeks, not quarters
+- 📈 **Receipts** — 12M+ minutes played across published work · Kouvola (Finland's #1 Fortnite Creative experience) · 5K+ Fortnite followers · 4K+ TikTok / YouTube followers
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech we build with
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Unreal Engine 5 · Godot · HTML5 · Blender · AI-assisted production tooling
 
-## Learn More
+## Links
 
-To learn more about Next.js, take a look at the following resources:
+- 🌐 **Website**: [jalogames.fi](https://jalogames.fi)
+- 📰 **Press kit**: [jalogames.fi/press](https://jalogames.fi/press)
+- 📓 **Journal**: [jalogames.fi/journal](https://jalogames.fi/journal)
+- 💼 **LinkedIn**: [linkedin.com/company/jalo-games-oy](https://www.linkedin.com/company/jalo-games-oy)
+- ✉️ **Briefs / partnerships / press**: jalo@jalogames.fi
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*If you're a brand team thinking about a playable activation, or a player who wants to know what we're cooking — we read every thoughtful message.*
