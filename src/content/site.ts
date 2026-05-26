@@ -174,6 +174,11 @@ export type JourneyMilestone = {
   period: string; // "Age 7", "High school", "Fortnite UEFN", "Today"
   title: string;
   body: string;
+  /** Optional supporting image (relative to /public). Renders inside
+   *  the milestone card when present; layout falls back to text-only
+   *  when absent so the timeline stays visually consistent. */
+  image?: string;
+  imageAlt?: string;
 };
 
 export const journey: JourneyMilestone[] = [
@@ -191,6 +196,9 @@ export const journey: JourneyMilestone[] = [
     period: "Fortnite UEFN",
     title: "Kouvola — Finland's #1 map",
     body: "Built Kouvola, the most-played Fortnite Creative experience in Finland. Streamed by major YouTubers, played millions of times. Proof that a small operator can outbuild much bigger teams.",
+    image: "/studio/kouvola.png",
+    imageAlt:
+      "Players gathered in the Kouvola Fortnite Creative map, with the recognisable RUOVOLA SAUNA building in the background",
   },
   {
     period: "Today",

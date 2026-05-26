@@ -180,20 +180,36 @@ export default function StudioPage() {
                     </p>
                   </div>
 
-                  {/* Content panel */}
+                  {/* Content panel — gets an optional image when the
+                      milestone carries one (e.g. Kouvola) for visual
+                      receipt. Otherwise text-only, same card chrome. */}
                   <div
-                    className={`rounded-2xl border border-border bg-surface p-6 ${
+                    className={`overflow-hidden rounded-2xl border border-border bg-surface ${
                       isEven
-                        ? "sm:col-start-2 sm:pl-6"
-                        : "sm:col-start-1 sm:row-start-1 sm:pr-6 sm:text-right"
+                        ? "sm:col-start-2 sm:pl-0"
+                        : "sm:col-start-1 sm:row-start-1 sm:pr-0 sm:text-right"
                     }`}
                   >
-                    <h3 className="font-display text-xl uppercase tracking-[0.02em] text-text sm:text-2xl">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">
-                      {step.body}
-                    </p>
+                    {step.image ? (
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        <Image
+                          src={step.image}
+                          alt={step.imageAlt ?? step.title}
+                          fill
+                          sizes="(min-width: 640px) 50vw, 100vw"
+                          quality={85}
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : null}
+                    <div className="p-6">
+                      <h3 className="font-display text-xl uppercase tracking-[0.02em] text-text sm:text-2xl">
+                        {step.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">
+                        {step.body}
+                      </p>
+                    </div>
                   </div>
                 </li>
               );
