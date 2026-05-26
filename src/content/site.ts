@@ -165,6 +165,85 @@ export const founder = {
 } as const;
 
 /**
+ * Credibility stats — appear on the Studio page (and previously seeded
+ * the marquee). Update freely as the numbers grow; each one is a hard
+ * receipt against the "we make games people actually play" claim.
+ */
+export type StudioStat = {
+  value: string;
+  label: string;
+};
+
+export const studioStats: StudioStat[] = [
+  { value: "5 000+", label: "Followers in Fortnite" },
+  { value: "4 000+", label: "TikTok & YouTube followers" },
+  { value: "12M+", label: "Minutes played across our games" },
+];
+
+/**
+ * Production-craft showcase items on the Studio page. Each step in
+ * the "concept → ship" pipeline gets a hero image (from our actual
+ * Blender / Unreal work, not stock).
+ */
+export type CraftItem = {
+  title: string;
+  caption: string;
+  image: string;
+  imageAlt: string;
+};
+
+export const craft: CraftItem[] = [
+  {
+    title: "Characters",
+    caption:
+      "Original heroes and villains — modeled, textured, and rigged in-house. Every face has to read on a phone screen and a Fortnite billboard.",
+    image: "/studio/blender-wolf.png",
+    imageAlt:
+      "Wolf enemy from Ramba Bull modeled and textured in Blender",
+  },
+  {
+    title: "Animation",
+    caption:
+      "Custom rigs and keyframed animation that move with weight. We don't ship mocap libraries — we ship intention.",
+    image: "/studio/blender-grace.png",
+    imageAlt:
+      "Grace Run protagonist rigged and posed for animation in Blender",
+  },
+  {
+    title: "Environments",
+    caption:
+      "Modular world-building — props and architecture that snap into level layouts at production speed without breaking visual cohesion.",
+    image: "/studio/blender-houses.png",
+    imageAlt:
+      "Stealin Apples orchard houses and props modeled in Blender",
+  },
+];
+
+/**
+ * Belief cards on the Studio page — short principles that frame how
+ * the studio actually operates day-to-day. Punchier than the homepage
+ * Process pillars because they sit on a more committed page.
+ */
+export const principles: { title: string; body: string }[] = [
+  {
+    title: "Taste over template",
+    body: "We design from scratch. No asset flips, no template engines, no UI kits dressed up as games.",
+  },
+  {
+    title: "Speed without rushing",
+    body: "Modern tools, lean teams, ruthless prioritisation. We ship in weeks because we removed the steps that don't matter.",
+  },
+  {
+    title: "Polish is the product",
+    body: "Movement, audio, pacing, feedback — players feel polish before they read words. Every detail earns its place.",
+  },
+  {
+    title: "Built to spread",
+    body: "Games that generate clips, reactions, and word of mouth. Designed for the moment players show their friends.",
+  },
+];
+
+/**
  * Studio-wide social profiles. Render order matters — first one is the
  * priority pick. Used in the footer and added to JSON-LD `sameAs`.
  */
