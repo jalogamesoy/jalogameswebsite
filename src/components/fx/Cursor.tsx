@@ -66,8 +66,10 @@ export function Cursor() {
     };
 
     const loop = () => {
-      // Dot snaps to the pointer (responsive). Ring eases in.
-      const dt = 0.18;
+      // Dot snaps to the pointer (responsive). Ring eases in — bumped
+      // from 0.18 to 0.42 so the ring feels glued to the pointer
+      // instead of trailing behind it.
+      const dt = 0.42;
       ringX += (mouseX - ringX) * dt;
       ringY += (mouseY - ringY) * dt;
       if (dotRef.current) {

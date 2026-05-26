@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Saira } from "next/font/google";
+import { Geist, Geist_Mono, Russo_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/nav/Header";
 import { Footer } from "@/components/nav/Footer";
@@ -20,10 +20,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const saira = Saira({
-  variable: "--font-saira",
+// Russo One — single weight (400, visually heavy by default). Closer
+// to the reference's Eurostile/Bank Gothic feel than Saira was.
+const russoOne = Russo_One({
+  variable: "--font-russo-one",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -105,7 +107,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${saira.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${russoOne.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text">
         <script

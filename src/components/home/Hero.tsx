@@ -19,7 +19,8 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden"
     >
-      {/* Background scene */}
+      {/* Background scene — light overlay only on the bottom so the
+          world is visible at the top, content stays readable lower. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <Image
           src="/home/background.png"
@@ -27,12 +28,11 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          quality={80}
+          quality={85}
           className="object-cover"
         />
-        {/* Darken + vignette so the foreground content reads cleanly. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/65 via-bg/55 to-bg" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_0%,rgba(7,11,31,0.6)_75%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/25 via-bg/15 to-bg" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(7,11,31,0.35)_85%)]" />
       </div>
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:py-32">
@@ -84,18 +84,20 @@ export function Hero() {
             <GameCard game={third} />
           </div>
 
-          {/* Desktop: layered composition */}
-          <div className="relative hidden h-[560px] lg:block">
+          {/* Desktop: layered composition — bigger now, with the centre
+              card prominent and the side cards tucked behind. */}
+          <div className="relative hidden h-[640px] lg:block">
             {/* Back-left card (slightly behind, rotated) */}
-            <div className="absolute left-0 top-12 w-[42%] -rotate-3 opacity-90 transition-transform duration-500 hover:rotate-0 hover:opacity-100">
+            <div className="absolute -left-4 top-20 w-[58%] -rotate-[6deg] opacity-90 transition-transform duration-500 hover:rotate-0 hover:opacity-100">
               <GameCard game={second} />
             </div>
             {/* Back-right card */}
-            <div className="absolute right-0 top-20 w-[42%] rotate-3 opacity-90 transition-transform duration-500 hover:rotate-0 hover:opacity-100">
+            <div className="absolute -right-4 top-28 w-[58%] rotate-[6deg] opacity-90 transition-transform duration-500 hover:rotate-0 hover:opacity-100">
               <GameCard game={third} />
             </div>
-            {/* Front-center card (the hero one) */}
-            <div className="absolute left-1/2 top-0 w-[60%] -translate-x-1/2 transition-transform duration-500 hover:-translate-y-2">
+            {/* Front-center card (the hero one) — sits forward at full
+                size so it reads as the headline device. */}
+            <div className="absolute left-1/2 top-0 w-[78%] -translate-x-1/2 transition-transform duration-500 hover:-translate-y-2">
               <GameCard game={first} priority />
             </div>
           </div>
