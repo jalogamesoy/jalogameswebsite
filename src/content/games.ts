@@ -95,10 +95,7 @@ export const games: Game[] = [
       "A pixel-art stealth puzzler about an orchard, a grumpy grandpa, and the noble art of fruit theft. Quick rounds, escalating risk, designed to spread. Charm dialed to maximum.",
     platforms: ["Mobile (iOS / Android)"],
     releaseWindow: "In Development",
-    // The provided card.png reads "STEALING APPLES" (with G) and is being
-    // redone with the canonical name. Until then, the GameCard component
-    // falls back to a CSS-built card using the first screenshot.
-    cardImage: null,
+    cardImage: "/games/stealin-apples/card.png",
     screenshots: [
       "/games/stealin-apples/screenshot-1.png",
       "/games/stealin-apples/screenshot-2.png",

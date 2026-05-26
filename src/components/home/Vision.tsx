@@ -61,6 +61,25 @@ export function Vision() {
                 <p key={i}>{paragraph}</p>
               ))}
             </div>
+
+            {/* Tech stack chips — proof for the "best tools in the world" claim */}
+            <div className="mt-8 flex flex-col gap-3">
+              <p className="eyebrow">Built with</p>
+              <ul className="flex flex-wrap gap-2">
+                {vision.techStack.map((tool) => (
+                  <li
+                    key={tool}
+                    className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-bg/40 px-4 py-1.5 font-display text-xs uppercase tracking-[0.14em] text-text backdrop-blur"
+                  >
+                    <span
+                      aria-hidden
+                      className="size-1.5 rounded-full bg-accent-warm"
+                    />
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -18,13 +18,18 @@ export const studio = {
 } as const;
 
 /**
- * Marquee values — short, all-caps, punchy. Cycles infinitely between
- * the hero and the Who We Are block.
+ * Marquee items — short, all-caps, punchy. Cycles infinitely between
+ * the hero and the Who We Are block. Mixes studio mantras with hard
+ * proof points (followers, playtime) so the rhythm reads "belief +
+ * receipt + belief + receipt".
  */
 export const mantras: string[] = [
   "BUILT FASTER",
+  "5 000+ FORTNITE FOLLOWERS",
   "POLISHED HARDER",
+  "4 000+ TIKTOK & YOUTUBE FOLLOWERS",
   "AVERAGE IS EXPENSIVE",
+  "12M+ MINUTES PLAYED",
   "WE OUTBUILD",
   "NO BORING GAMES",
   "TASTE WINS",
@@ -51,6 +56,9 @@ export const vision = {
     "JaloGames exists for one reason: to create games that feel bigger, sharper, and more memorable than anyone expects. We don't believe great games require slow teams, bloated processes, or endless waiting.",
     "We believe the future belongs to studios that move fast, think clearly, use the best tools in the world, and refuse to make average things.",
   ],
+  /** Concrete tech stack — listed under the manifesto to back up the
+   *  "best tools in the world" claim. Render as labelled chips. */
+  techStack: ["Unreal Engine 5", "Godot", "HTML5"],
 } as const;
 
 /** Big mid-page "Built with" statement. Each builtWith line gets its

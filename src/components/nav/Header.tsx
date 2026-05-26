@@ -10,7 +10,7 @@ import { MobileNav } from "./MobileNav";
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-b from-bg/40 via-bg/15 to-transparent">
+    <header className="sticky top-0 z-50 bg-transparent">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link
           href="/"
