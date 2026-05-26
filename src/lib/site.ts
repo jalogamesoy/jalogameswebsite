@@ -1,7 +1,9 @@
-// Central place for site-wide constants. Update SITE_URL when the
-// custom domain (jalogames.fi) is wired up in Vercel.
+// Central place for site-wide constants. The apex domain (no www) is
+// the canonical URL. If you ever need to point this at a preview /
+// staging environment, set NEXT_PUBLIC_SITE_URL as an env var instead
+// of editing this fallback.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://jalogameswebsite.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://jalogames.fi";
 
 export const SITE_CONFIG = {
   name: "JaloGames",
