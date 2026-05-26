@@ -152,6 +152,19 @@ export const nav: { label: string; href: string }[] = [
 export const headerCta = { label: "Work with us", href: "/contact" } as const;
 
 /**
+ * Founder card data. Used on the Contact page above the email block
+ * so visitors can see who they'll actually be talking to.
+ */
+export const founder = {
+  name: "Jalo Tuomi",
+  role: "Founder & CEO",
+  pitch:
+    "I started JaloGames to build the kind of games I wanted to play — and to ship them faster than the industry says is possible. If you've got something worth building, talk to me directly.",
+  photo: "/contact/jalo-tuomi.jpg",
+  linkedin: "https://www.linkedin.com/in/jtuomi/",
+} as const;
+
+/**
  * Studio-wide social profiles. Render order matters — first one is the
  * priority pick. Used in the footer and added to JSON-LD `sameAs`.
  */

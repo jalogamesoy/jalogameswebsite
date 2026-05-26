@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { FounderCard } from "@/components/contact/FounderCard";
 import { studio } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -25,6 +26,11 @@ export default function ContactPage() {
         description="Players, partners, press — if you've got something worth building, we want to hear it. We reply within one working day."
       />
 
+      {/* Founder card */}
+      <section className="mx-auto max-w-5xl px-4 pt-16 sm:px-6 lg:px-8">
+        <FounderCard />
+      </section>
+
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-6">
           {/* Primary email card */}
@@ -33,7 +39,7 @@ export default function ContactPage() {
             className="group rounded-2xl border border-border bg-surface p-8 transition-colors hover:border-accent-warm"
           >
             <p className="eyebrow mb-2">Email us directly</p>
-            <p className="font-display text-3xl font-bold uppercase tracking-[0.01em] text-text transition-colors group-hover:text-accent-warm sm:text-4xl">
+            <p className="font-display text-3xl uppercase tracking-[0.01em] text-text transition-colors group-hover:text-accent-warm sm:text-4xl">
               {studio.email}
             </p>
             <p className="mt-3 text-sm text-text-muted">
