@@ -1,42 +1,98 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette — adjust these and the whole site shifts. */
+  --bg: #070b1f;           /* deep midnight navy */
+  --surface: #0d1330;      /* raised cards */
+  --surface-2: #131a40;    /* secondary surfaces */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --text: #fafafa;
+  --text-muted: #9aa3c7;
+  --text-dim: #5e6896;
+
+  --accent-warm: #f5944a;  /* amber — primary brand accent */
+  --accent-cool: #8aa0ff;  /* soft blue glow */
+
+  /* Legacy tokens — kept for any older Next defaults still referencing them. */
+  --background: var(--bg);
+  --foreground: var(--text);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-cool: var(--accent-cool);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
+  color: var(--text);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Reserve vertical breathing room above in-page anchor targets,
-   so future sticky headers won't crop their first lines. */
+/* Reserve breathing room above in-page anchor targets, so future
+   sticky headers won't crop their first lines. */
 [id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 6rem;
+}
+
+/* Display heading utility — large editorial serif. Apply via
+   `font-display` Tailwind class (mapped to --font-display in theme). */
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+  letter-spacing: -0.02em;
+}
+
+/* Subtle eyebrow label style for "— SECTION NAME —" markers. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Selection styling that matches the palette. */
+::selection {
+  background: var(--accent-warm);
+  color: var(--bg);
 }

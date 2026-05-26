@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large media — keep locally, host elsewhere (Vercel Blob / Mux) or compress
+# before committing. See src/content/games.ts TODO before Phase 2C ships
+# hover-video on the game cards.
+public/games/**/*.mp4
+public/games/**/*.mov
+public/games/**/*.webm
+public/games/**/*.mp3
+public/games/**/*.wav

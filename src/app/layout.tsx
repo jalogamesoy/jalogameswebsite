@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { Header } from "@/components/nav/Header";
+import { Footer } from "@/components/nav/Footer";
 import { SITE_CONFIG, SITE_URL } from "@/lib/site";
+import { studio } from "@/content/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,13 +17,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["SOFT", "WONK", "opsz"],
+  display: "swap",
+});
+
+const TITLE_DEFAULT = `${SITE_CONFIG.name} — Branded Games & Fortnite Experiences`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_CONFIG.name} — Independent Game Studio`,
+    default: TITLE_DEFAULT,
     template: `%s — ${SITE_CONFIG.name}`,
   },
-  description: SITE_CONFIG.description,
+  description: studio.tagline,
   applicationName: SITE_CONFIG.name,
   authors: [{ name: SITE_CONFIG.name, url: SITE_URL }],
   creator: SITE_CONFIG.name,
@@ -33,13 +45,13 @@ export const metadata: Metadata = {
     locale: SITE_CONFIG.locale,
     url: SITE_URL,
     siteName: SITE_CONFIG.name,
-    title: `${SITE_CONFIG.name} — Independent Game Studio`,
-    description: SITE_CONFIG.description,
+    title: TITLE_DEFAULT,
+    description: studio.tagline,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_CONFIG.name} — Independent Game Studio`,
-    description: SITE_CONFIG.description,
+    title: TITLE_DEFAULT,
+    description: studio.tagline,
   },
   robots: {
     index: true,
@@ -58,16 +70,25 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000",
+  themeColor: "#070b1f",
   colorScheme: "dark",
 };
 
+/** Organization JSON-LD — every page inherits this via the root layout. */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE_CONFIG.name,
+  alternateName: "Jalo Games",
   url: SITE_URL,
-  description: SITE_CONFIG.description,
+  description: studio.tagline,
+  foundingDate: String(studio.foundingYear),
+  email: studio.email,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Helsinki",
+    addressCountry: "FI",
+  },
 } as const;
 
 export default function RootLayout({
@@ -78,16 +99,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-bg text-text">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        {children}
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
         <Analytics />
       </body>
     </html>
