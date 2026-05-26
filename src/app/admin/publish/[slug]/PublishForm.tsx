@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { publishAction, type PublishInput } from "./actions";
-import type { UploadPostPlatform, UploadPostResult } from "@/lib/upload-post";
+import { publishAction, type Platform, type PublishInput } from "./actions";
+import type { PublishResult } from "@/lib/upload-post";
 
-const ALL_PLATFORMS: UploadPostPlatform[] = ["linkedin", "x", "reddit"];
+const ALL_PLATFORMS: Platform[] = ["linkedin", "x", "reddit"];
 
 /**
  * Editable draft-then-publish form for a journal post. Pre-fills
@@ -28,7 +28,7 @@ export function PublishForm({
     subreddit: string;
   };
 }) {
-  const [platforms, setPlatforms] = useState<UploadPostPlatform[]>([
+  const [platforms, setPlatforms] = useState<Platform[]>([
     ...ALL_PLATFORMS,
   ]);
   const [linkedinText, setLinkedinText] = useState(defaults.linkedin);
@@ -37,10 +37,10 @@ export function PublishForm({
   const [redditBody, setRedditBody] = useState(defaults.redditBody);
   const [subreddit, setSubreddit] = useState(defaults.subreddit);
 
-  const [result, setResult] = useState<UploadPostResult | null>(null);
+  const [result, setResult] = useState<PublishResult | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const togglePlatform = (p: UploadPostPlatform) => {
+  const togglePlatform = (p: Platform) => {
     setPlatforms((current) =>
       current.includes(p) ? current.filter((x) => x !== p) : [...current, p]
     );
@@ -217,29 +217,32 @@ export function PublishForm({
       </div>
 
       {/* Result */}
-      {result && (
-        <section
-          aria-live="polite"
-          className={`rounded-2xl border p-6 ${
-            result.success
-              ? "border-accent-warm/40 bg-accent-warm/5"
-              : "border-red-500/40 bg-red-500/5"
-          }`}
-        >
-          <p className="eyebrow mb-3">
-            {result.success ? "Published" : "Something went wrong"}
-          </p>
-          {result.message && (
-            <p className="text-sm text-text-muted">{result.message}</p>
-          )}
-          {result.results && (
-            <ul className="mt-4 space-y-3 text-sm">
-              {Object.entries(result.results).map(([platform, r]) => (
+      {result && (() => {
+        const entries = [
+          ["linkedin", result.linkedin] as const,
+          ["x", result.x] as const,
+          ["reddit", result.reddit] as const,
+        ].filter(([, r]) => r !== undefined);
+        const anyFailure = entries.some(([, r]) => r && !r.success);
+        return (
+          <section
+            aria-live="polite"
+            className={`rounded-2xl border p-6 ${
+              anyFailure
+                ? "border-red-500/40 bg-red-500/5"
+                : "border-accent-warm/40 bg-accent-warm/5"
+            }`}
+          >
+            <p className="eyebrow mb-3">
+              {anyFailure ? "Some platforms failed" : "Published"}
+            </p>
+            <ul className="space-y-3 text-sm">
+              {entries.map(([platform, r]) => (
                 <li key={platform} className="flex items-baseline gap-3">
                   <span className="font-display w-20 shrink-0 text-xs uppercase tracking-[0.18em] text-accent-warm">
                     {platform}
                   </span>
-                  {r.success ? (
+                  {r && r.success ? (
                     r.url ? (
                       <a
                         href={r.url}
@@ -254,20 +257,20 @@ export function PublishForm({
                     )
                   ) : (
                     <span className="text-red-400">
-                      {r.error ?? "failed"}
+                      {r?.error ?? "failed"}
                     </span>
                   )}
                 </li>
               ))}
             </ul>
-          )}
-          {result.usage && (
-            <p className="mt-4 text-xs text-text-dim">
-              Usage: {result.usage.count} / {result.usage.limit} this cycle.
-            </p>
-          )}
-        </section>
-      )}
+            {result.usage && (
+              <p className="mt-4 text-xs text-text-dim">
+                Usage: {result.usage.count} / {result.usage.limit} this cycle.
+              </p>
+            )}
+          </section>
+        );
+      })()}
     </form>
   );
 }

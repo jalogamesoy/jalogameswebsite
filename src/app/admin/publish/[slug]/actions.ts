@@ -2,12 +2,13 @@
 
 import {
   publishToSocials,
-  type UploadPostPlatform,
-  type UploadPostResult,
+  type PublishResult,
 } from "@/lib/upload-post";
 
+export type Platform = "linkedin" | "x" | "reddit";
+
 export type PublishInput = {
-  platforms: UploadPostPlatform[];
+  platforms: Platform[];
   redditTitle: string;
   redditBody: string;
   linkedinText: string;
@@ -20,34 +21,43 @@ export type PublishInput = {
  * middleware-protected /admin route so this is implicitly auth-gated
  * (you can't fire a server action without an authenticated client
  * session).
+ *
+ * Fires one upload-post API call per selected platform so each gets
+ * the field mapping it actually needs (see src/lib/upload-post.ts
+ * for why a single combined call doesn't work for LinkedIn).
  */
 export async function publishAction(
   input: PublishInput
-): Promise<UploadPostResult> {
+): Promise<PublishResult> {
   if (input.platforms.length === 0) {
     return {
-      success: false,
-      message: "Pick at least one platform before publishing.",
+      linkedin: undefined,
+      x: undefined,
+      reddit: undefined,
     };
   }
 
   if (input.platforms.includes("reddit") && !input.subreddit.trim()) {
     return {
-      success: false,
-      message: "Reddit needs a subreddit. Pass the name without r/.",
+      reddit: {
+        success: false,
+        error: "Reddit needs a subreddit. Pass the name without r/.",
+      },
     };
   }
 
   return publishToSocials({
-    // upload-post user identifier. Hardcoded for now — there's only
-    // one profile on the account ("Jalo"). If you ever add more
-    // profiles, lift this to an env var or page prop.
     user: "Jalo",
-    platforms: input.platforms,
-    title: input.redditTitle,
-    description: input.redditBody,
-    linkedinDescription: input.linkedinText,
-    xTitle: input.xText,
-    subreddit: input.subreddit.replace(/^r\//, ""),
+    linkedin: input.platforms.includes("linkedin")
+      ? { body: input.linkedinText }
+      : undefined,
+    x: input.platforms.includes("x") ? { body: input.xText } : undefined,
+    reddit: input.platforms.includes("reddit")
+      ? {
+          title: input.redditTitle,
+          body: input.redditBody,
+          subreddit: input.subreddit,
+        }
+      : undefined,
   });
 }
