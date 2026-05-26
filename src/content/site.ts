@@ -161,7 +161,7 @@ export const founder = {
   pitch:
     "I started JaloGames to build the kind of games I wanted to play — and to ship them faster than the industry says is possible. If you've got something worth building, talk to me directly.",
   photo: "/contact/jalo-tuomi.jpg",
-  linkedin: "https://www.linkedin.com/in/jtuomi/",
+  linkedin: "https://www.linkedin.com/in/jalotuomi/",
 } as const;
 
 /**
