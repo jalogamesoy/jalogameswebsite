@@ -1,9 +1,9 @@
 import { studio } from "@/content/site";
 
 /**
- * Studio-first positioning block. Frames the games grid below as proof
- * rather than the headline. Server-rendered; the visual rhythm comes
- * from oversized type + asymmetric spacing.
+ * "Who we are" — the studio's introduction. Sits after the marquee.
+ * Asymmetric grid so the headline gets dominant visual weight while
+ * the supporting paragraph reads at a comfortable measure.
  */
 export function WhoWeAre() {
   return (
@@ -21,8 +21,8 @@ export function WhoWeAre() {
               id="who-we-are-heading"
               className="font-display text-balance text-3xl font-bold uppercase leading-[1.05] tracking-[0.01em] text-text sm:text-4xl md:text-5xl"
             >
-              The studio brands hire when the brief is good and the deadline is{" "}
-              <span className="text-accent-warm">yesterday</span>.
+              From Finland.{" "}
+              <span className="text-accent-warm">Built to leave a mark.</span>
             </h2>
             <p className="mt-8 max-w-3xl text-balance text-lg leading-relaxed text-text-muted sm:text-xl">
               {studio.whoWeAre}

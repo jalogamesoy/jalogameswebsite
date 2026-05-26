@@ -24,7 +24,7 @@ const saira = Saira({
   display: "swap",
 });
 
-const TITLE_DEFAULT = `${SITE_CONFIG.name} — Branded Games & Fortnite Experiences`;
+const TITLE_DEFAULT = `${SITE_CONFIG.name} — Next-Generation Game Studio from Finland`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
