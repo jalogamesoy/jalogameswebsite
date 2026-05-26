@@ -1,0 +1,49 @@
+# JaloGames
+
+> JaloGames is a next-generation game studio from Finland building original games, browser experiences, mobile titles, and immersive Fortnite worlds. We combine creative taste, ruthless execution speed, modern production tools, and obsessive polish to create games that don't just launch — they leave a mark.
+
+## About
+
+JaloGames is a Helsinki-based independent game studio founded in 2024 by Jalo Tuomi (Founder & CEO). The studio ships both its own original IP and branded campaigns for ambitious brands. Tagline: "We don't follow the industry. We outbuild it."
+
+- Location: Helsinki, Finland
+- Founded: 2024
+- Contact: jalo@jalogames.fi
+- LinkedIn: https://www.linkedin.com/company/jalo-games-oy
+
+## What we do
+
+- Original IP development (three titles in active development)
+- Branded mobile games (HTML5 and native, instant-load)
+- Fortnite Experiences via UEFN (custom islands, branded events)
+- Browser games (HTML5/Canvas, no install)
+- Engines and tools: Unreal Engine 5, Godot, HTML5, Blender, AI-assisted workflows
+
+## Track record
+
+- 5,000+ followers in Fortnite
+- 4,000+ followers across TikTok and YouTube
+- 12,000,000+ minutes played across published games
+
+## Games in active development
+
+- **Ramba Bull** — Action platformer. Mobile + browser. Cartoon-Viking world with airships and giants.
+- **Grace Run** — Premium endless runner. Mobile. 3D voxel-style with a robed protagonist navigating sand-blasted ruins.
+- **Stealin Apples** — Pixel-art stealth puzzler. Mobile. An orchard, a grumpy grandpa, and the noble art of fruit theft.
+
+## Key pages
+
+- [Homepage](https://jalogames.fi/): https://jalogames.fi/
+- [Games](https://jalogames.fi/games): https://jalogames.fi/games
+- [Studio](https://jalogames.fi/studio): https://jalogames.fi/studio
+- [FAQ](https://jalogames.fi/faq): https://jalogames.fi/faq
+- [Contact](https://jalogames.fi/contact): https://jalogames.fi/contact
+
+## How to work with JaloGames
+
+Brand teams, partners, and press should email jalo@jalogames.fi with a short brief covering: who the brand is, the audience, format (mobile, Fortnite, browser), timing, and budget range. We reply within one working day. We sign NDAs for confidential briefs and ship branded campaigns work-for-hire (full IP transfer on delivery).
+
+## Optional
+
+- [Sitemap](https://jalogames.fi/sitemap.xml)
+- [Robots](https://jalogames.fi/robots.txt)

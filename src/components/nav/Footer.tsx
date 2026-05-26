@@ -79,7 +79,33 @@ export function Footer() {
           <p>
             © {year} {studio.name}. All rights reserved.
           </p>
-          <p>{studio.location}</p>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            <li>
+              <Link
+                href="/faq"
+                className="transition-colors hover:text-text"
+              >
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/privacy"
+                className="transition-colors hover:text-text"
+              >
+                Privacy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/terms"
+                className="transition-colors hover:text-text"
+              >
+                Terms
+              </Link>
+            </li>
+            <li className="text-text-dim">{studio.location}</li>
+          </ul>
         </div>
       </div>
     </footer>

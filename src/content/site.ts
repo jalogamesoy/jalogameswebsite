@@ -220,6 +220,69 @@ export const craft: CraftItem[] = [
 ];
 
 /**
+ * FAQ questions and answers. Tilted at brand-marketing buyers (the
+ * commercial engine) but written in plain language anyone can read.
+ * Each question is rendered both as visible content AND inside a
+ * FAQPage JSON-LD block — AI search engines weight FAQPage schema
+ * heavily, so this is one of the strongest GEO signals on the site.
+ *
+ * Numbers are honest-but-illustrative defaults. Edit freely as the
+ * studio's actual averages evolve.
+ */
+export const faq: { question: string; answer: string }[] = [
+  {
+    question: "What kinds of projects does JaloGames take on?",
+    answer:
+      "Branded mobile games, Fortnite (UEFN) experiences, and HTML5 browser games for ambitious brands — plus our own original IP titles (three currently in active development).",
+  },
+  {
+    question: "How fast can you ship a branded campaign?",
+    answer:
+      "Concept to playable in weeks, not quarters. A typical HTML5 brand campaign ships in 4–8 weeks; a Fortnite UEFN experience in 6–12. Tight briefs go faster; deeper integrations take longer.",
+  },
+  {
+    question: "What's the rough budget range?",
+    answer:
+      "Most brand projects land between €15K and €100K depending on scope, platform, and timeline. Send us the brief and we'll come back with concrete numbers and trade-offs within one working day.",
+  },
+  {
+    question: "Who owns the IP at the end of a project?",
+    answer:
+      "You do. Brand campaigns are work-for-hire — all assets, code, and final deliverables transfer to the client on delivery. Our own original IP (Ramba Bull, Grace Run, Stealin Apples) stays with JaloGames.",
+  },
+  {
+    question: "Do you sign NDAs and handle confidential briefs?",
+    answer:
+      "Yes, always. Send your NDA in your first message — we'll have it signed the same day and move into the brief immediately after.",
+  },
+  {
+    question: "What does the workflow actually look like?",
+    answer:
+      "One Slack channel from kickoff to launch. Weekly check-ins, fortnightly playable builds, a public reviewer link from week one. Clear creative direction, fast iteration, no design-by-committee.",
+  },
+  {
+    question: "Where are you based and do you work internationally?",
+    answer:
+      "Helsinki, Finland — fully remote-friendly. We work with brands across Europe and North America. English is our default working language.",
+  },
+  {
+    question: "What engines and tools does the studio use?",
+    answer:
+      "Unreal Engine 5 (Fortnite UEFN and standalone), Godot (mobile and standalone), and HTML5 / Canvas for instant-load browser games. Production pipeline runs on Blender, Substance, and AI-assisted workflows where they genuinely make the games better.",
+  },
+  {
+    question: "Can you maintain a game after launch?",
+    answer:
+      "Yes. We offer post-launch support packages — updates, live-ops, performance tuning, content drops. Scope and cost depend on platform and audience size.",
+  },
+  {
+    question: "How do we get started?",
+    answer:
+      "Email jalo@jalogames.fi with the brief format on our contact page. We reply within one working day with first thoughts, initial scope, and a call invite.",
+  },
+];
+
+/**
  * Belief cards on the Studio page — short principles that frame how
  * the studio actually operates day-to-day. Punchier than the homepage
  * Process pillars because they sit on a more committed page.
