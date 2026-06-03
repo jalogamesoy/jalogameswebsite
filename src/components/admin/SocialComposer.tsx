@@ -110,8 +110,14 @@ export function SocialComposer({
       subreddit,
     };
     if (scheduleOn && scheduledLocal) {
-      input.scheduledDate = new Date(scheduledLocal).toISOString();
-      input.timezone = tz;
+      // Send an ABSOLUTE UTC instant (…Z), computed from the local wall
+      // clock via the browser's own timezone (Helsinki, DST included).
+      // Deliberately NO timezone param: the instant is unambiguous, and
+      // pairing it with a tz risks upload-post double-applying the offset.
+      // Strip milliseconds to match upload-post's documented format.
+      input.scheduledDate = new Date(scheduledLocal)
+        .toISOString()
+        .replace(/\.\d{3}Z$/, "Z");
     }
     startTransition(async () => {
       setResult(null);
