@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPosts } from "@/lib/journal";
+import { getAllPostsAdmin, postState, type PostState } from "@/lib/journal";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -24,12 +24,19 @@ const PRIMARY_ACTIONS = [
   },
 ];
 
+const STATE_BADGE: Record<PostState, string> = {
+  live: "border-accent-cool/40 text-accent-cool",
+  scheduled: "border-accent-warm/40 text-accent-warm",
+  draft: "border-border-strong text-text-dim",
+};
+
 /**
  * Admin home. Primary actions up top (compose + scheduled queue), then
- * the journal-post syndication list. Behind Basic Auth (middleware.ts).
+ * the journal-post list — including drafts + scheduled (admin view), each
+ * with a status badge. Behind Basic Auth (middleware.ts).
  */
 export default function AdminIndexPage() {
-  const posts = getAllPosts();
+  const posts = getAllPostsAdmin();
 
   return (
     <main className="bg-bg">
@@ -65,37 +72,46 @@ export default function AdminIndexPage() {
           ))}
         </div>
 
-        {/* Journal syndication */}
+        {/* Journal posts */}
         <h2 className="mt-12 font-display text-sm uppercase tracking-[0.18em] text-text-muted">
-          Syndicate a journal post
+          Journal posts
         </h2>
         <p className="mt-2 text-xs text-text-dim">
-          Pre-fills per-platform drafts from a published article.
+          Pre-fills per-platform drafts from an article. Drafts + scheduled
+          posts are visible here but hidden from the public site.
         </p>
         <ul className="mt-4 space-y-3">
-          {posts.map((post) => (
-            <li key={post.slug}>
-              <Link
-                href={`/admin/publish/${post.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-accent-warm"
-              >
-                <div className="min-w-0">
-                  <p className="font-display text-base uppercase tracking-[0.02em] text-text">
-                    {post.frontmatter.title}
-                  </p>
-                  <p className="mt-1 truncate text-xs text-text-dim">
-                    /journal/{post.slug}
-                  </p>
-                </div>
-                <span
-                  aria-hidden
-                  className="font-display shrink-0 text-xs uppercase tracking-[0.18em] text-accent-warm transition-transform group-hover:translate-x-1"
+          {posts.map((post) => {
+            const state = postState(post.frontmatter);
+            return (
+              <li key={post.slug}>
+                <Link
+                  href={`/admin/publish/${post.slug}`}
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-accent-warm"
                 >
-                  Syndicate →
-                </span>
-              </Link>
-            </li>
-          ))}
+                  <div className="min-w-0">
+                    <span
+                      className={`mb-2 inline-flex items-center rounded-full border px-2 py-0.5 font-display text-[10px] uppercase tracking-[0.2em] ${STATE_BADGE[state]}`}
+                    >
+                      {state}
+                    </span>
+                    <p className="font-display text-base uppercase tracking-[0.02em] text-text">
+                      {post.frontmatter.title}
+                    </p>
+                    <p className="mt-1 truncate text-xs text-text-dim">
+                      /journal/{post.slug}
+                    </p>
+                  </div>
+                  <span
+                    aria-hidden
+                    className="font-display shrink-0 text-xs uppercase tracking-[0.18em] text-accent-warm transition-transform group-hover:translate-x-1"
+                  >
+                    Syndicate →
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </main>

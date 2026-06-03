@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/journal" },
 };
 
+// Refresh hourly so scheduled posts appear on the listing when due.
+export const revalidate = 3600;
+
 export default function JournalIndexPage() {
   const posts = getAllPosts();
 
@@ -51,8 +54,13 @@ export default function JournalIndexPage() {
                     </div>
                   ) : null}
                   <div className="p-5">
-                    <p className="eyebrow mb-3">
-                      {formatPostDate(post.frontmatter.date)}
+                    <p className="eyebrow mb-3 flex flex-wrap items-center gap-2">
+                      {post.frontmatter.category && (
+                        <span className="rounded-full border border-accent-warm/40 px-2 py-0.5 text-[10px] tracking-[0.2em] text-accent-warm">
+                          {post.frontmatter.category}
+                        </span>
+                      )}
+                      <span>{formatPostDate(post.frontmatter.date)}</span>
                     </p>
                     <h2 className="font-display text-xl uppercase leading-[1.1] tracking-[0.02em] text-text sm:text-2xl">
                       {post.frontmatter.title}

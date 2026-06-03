@@ -3,6 +3,9 @@ import { games } from "@/content/games";
 import { getAllPosts } from "@/lib/journal";
 import { SITE_URL } from "@/lib/site";
 
+// Refresh hourly so scheduled posts enter the sitemap when they go live.
+export const revalidate = 3600;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
@@ -76,7 +79,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const journalRoutes: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
     url: `${SITE_URL}/journal/${post.slug}`,
-    lastModified: new Date(post.frontmatter.date),
+    lastModified: new Date(
+      post.frontmatter.dateModified ?? post.frontmatter.date
+    ),
     changeFrequency: "yearly",
     priority: 0.6,
   }));

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SocialComposer } from "@/components/admin/SocialComposer";
-import { getPostBySlug } from "@/lib/journal";
+import { getPostBySlugAdmin } from "@/lib/journal";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function PublishPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getPostBySlugAdmin(slug);
   if (!post) notFound();
 
   const postUrl = `${SITE_URL}/journal/${slug}`;
