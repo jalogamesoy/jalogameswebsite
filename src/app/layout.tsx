@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Russo_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/nav/Header";
 import { Footer } from "@/components/nav/Footer";
-import { SmoothScroll } from "@/components/fx/SmoothScroll";
 import { Cursor } from "@/components/fx/Cursor";
 import { RevealController } from "@/components/fx/RevealController";
 import { SITE_CONFIG, SITE_URL } from "@/lib/site";
@@ -119,7 +118,6 @@ export default function RootLayout({
         {/* Phase 3A motion FX. Each component is a no-DOM client effect
             (Lenis, IO controller) or renders a fixed-position layer
             (cursor). All respect prefers-reduced-motion internally. */}
-        <SmoothScroll />
         <RevealController />
         <Cursor />
         <Header />

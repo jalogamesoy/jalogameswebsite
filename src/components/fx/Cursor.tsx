@@ -3,86 +3,70 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Custom cursor — a small dot that tracks the pointer exactly, plus a
- * larger ring that trails it with eased motion. The ring expands and
- * the dot fades on interactive elements.
+ * Custom cursor — a camera-style FOCUS RETICLE: a square frame broken at
+ * each edge midpoint, crosshair ticks crossing those midpoints, and a
+ * small centre square. Rendered in the brand amber. Tracks the pointer
+ * crisply (tight, frame-rate-independent follow) and "locks on" (scales
+ * up, full opacity) over interactive elements.
  *
- * Hidden completely on touch devices and when the user prefers
- * reduced motion. Renders pointer-events: none so it never blocks
- * actual interaction.
+ * Hidden on touch devices and prefers-reduced-motion. pointer-events:none
+ * so it never blocks clicks; non-JS visitors keep the native cursor.
  */
 export function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Skip on touch devices and reduced-motion preference.
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (isTouch || reducedMotion) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isTouch || reduced) return;
 
     setEnabled(true);
-    // Hide the native cursor while the custom one is active. CSS rule
-    // `.cursor-custom` lives in globals.css and applies to descendants.
     document.documentElement.classList.add("cursor-custom");
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
+    let x = mouseX;
+    let y = mouseY;
     let rafId = 0;
     let visible = false;
+    let prev = performance.now();
 
     const onMove = (e: PointerEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       if (!visible) {
         visible = true;
-        dotRef.current?.setAttribute("data-visible", "true");
-        ringRef.current?.setAttribute("data-visible", "true");
+        ref.current?.setAttribute("data-visible", "true");
       }
     };
-
     const onLeave = () => {
       visible = false;
-      dotRef.current?.removeAttribute("data-visible");
-      ringRef.current?.removeAttribute("data-visible");
+      ref.current?.removeAttribute("data-visible");
     };
-
     const onOver = (e: Event) => {
       const t = e.target as HTMLElement | null;
       const interactive = !!t?.closest(
         "a, button, [role='button'], input, textarea, select, [data-cursor-hover]"
       );
-      if (ringRef.current) {
-        if (interactive) ringRef.current.setAttribute("data-active", "true");
-        else ringRef.current.removeAttribute("data-active");
+      if (ref.current) {
+        if (interactive) ref.current.setAttribute("data-active", "true");
+        else ref.current.removeAttribute("data-active");
       }
     };
 
-    let prev = performance.now();
     const loop = (now: number) => {
-      // Frame-rate-INDEPENDENT smoothing: the ring approaches the pointer
-      // at a constant rate per *second* (k), so it feels identical on a
-      // 60Hz and a 120Hz display. (The old fixed per-frame lerp eased
-      // ~2x faster on 120Hz — part of why it felt inconsistent.) The dot
-      // stays exact for responsiveness.
+      // Tight, frame-rate-INDEPENDENT follow: smooth but crisp, like a
+      // targeting reticle snapping onto the pointer — same on 60/120Hz.
       const dt = Math.min(0.05, (now - prev) / 1000);
       prev = now;
-      const k = 16; // higher = tighter follow
-      const a = 1 - Math.exp(-k * dt);
-      ringX += (mouseX - ringX) * a;
-      ringY += (mouseY - ringY) * a;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-      }
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      const a = 1 - Math.exp(-32 * dt);
+      x += (mouseX - x) * a;
+      y += (mouseY - y) * a;
+      if (ref.current) {
+        ref.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
       }
       rafId = requestAnimationFrame(loop);
     };
@@ -104,17 +88,27 @@ export function Cursor() {
   if (!enabled) return null;
 
   return (
-    <>
-      <div
-        ref={ringRef}
-        aria-hidden
-        className="jg-cursor-ring pointer-events-none fixed left-0 top-0 z-[100] hidden h-8 w-8 rounded-full border border-accent-warm/50 data-[visible=true]:block transition-[width,height,border-color,background-color] duration-200 ease-out data-[active=true]:h-14 data-[active=true]:w-14 data-[active=true]:border-accent-warm data-[active=true]:bg-accent-warm/10"
-      />
-      <div
-        ref={dotRef}
-        aria-hidden
-        className="jg-cursor-dot pointer-events-none fixed left-0 top-0 z-[100] hidden h-1.5 w-1.5 rounded-full bg-accent-warm data-[visible=true]:block"
-      />
-    </>
+    <div
+      ref={ref}
+      aria-hidden
+      className="jg-reticle pointer-events-none fixed left-0 top-0 z-[100] hidden text-accent-warm opacity-80 data-[visible=true]:block data-[active=true]:opacity-100 [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-out data-[active=true]:[&>svg]:scale-[1.35]"
+    >
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 40 40"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      >
+        {/* Square frame, each edge split with a gap at its midpoint */}
+        <path d="M6 6 H16 M24 6 H34 M6 34 H16 M24 34 H34 M6 6 V16 M6 24 V34 M34 6 V16 M34 24 V34" />
+        {/* Crosshair ticks crossing each edge midpoint (in + out) */}
+        <path d="M20 2 V10 M20 30 V38 M2 20 H10 M30 20 H38" />
+        {/* Centre square */}
+        <rect x="16.5" y="16.5" width="7" height="7" fill="currentColor" stroke="none" />
+      </svg>
+    </div>
   );
 }
