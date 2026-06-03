@@ -48,7 +48,10 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* No CSS scroll-behavior here — Lenis (SmoothScroll.tsx) owns smooth
+     scrolling. Running both fights on anchor jumps and compounds the
+     heavy/floaty feel. Reduced-motion users (Lenis disabled) fall back
+     to native scroll, which is instant by default. */
   background: var(--bg);
   color: var(--text);
 }

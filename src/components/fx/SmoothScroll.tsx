@@ -35,10 +35,13 @@ export function SmoothScroll() {
     }
 
     const lenis = new Lenis({
-      duration: 1.05,
+      // Lighter than before (was 1.05 / 0.9). A shorter duration + a
+      // wheelMultiplier of 1.0 keeps the wheel feeling connected instead
+      // of slowed-down and floaty — the "annoying smooth" complaint.
+      duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.4,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
     });
     lenisRef.current = lenis;
 

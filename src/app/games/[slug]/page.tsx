@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { games, getGameBySlug } from "@/content/games";
+import { SITE_URL } from "@/lib/site";
+import { studio } from "@/content/site";
 
 type Params = { slug: string };
 
@@ -43,13 +45,59 @@ export default async function GameDetailPage(
   const game = getGameBySlug(slug);
   if (!game) notFound();
 
+  const ogImage = game.cardImage ?? game.screenshots[0];
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: game.title,
+    description: game.pitch,
+    genre: game.subtitle,
+    gamePlatform: game.platforms,
+    applicationCategory: "Game",
+    operatingSystem: game.platforms.join(", "),
+    ...(ogImage ? { image: `${SITE_URL}${ogImage}` } : {}),
+    url: `${SITE_URL}/games/${game.slug}`,
+    author: { "@type": "Organization", name: studio.name, url: SITE_URL },
+    publisher: { "@type": "Organization", name: studio.name, url: SITE_URL },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PageHeader
         eyebrow={`— ${game.subtitle.toUpperCase()} · ${game.releaseWindow.toUpperCase()} —`}
         title={game.title}
         description={game.pitch}
       />
+
+      {/* Launch funnel — wishlist / store / press CTAs. Renders only once
+          storeLinks is populated in content/games.ts (add the real URLs
+          per game as they go live). First link gets the primary amber
+          treatment; the rest are outlined. */}
+      {game.storeLinks.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 pt-2 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap gap-3">
+            {game.storeLinks.map((link, i) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={
+                  i === 0
+                    ? "inline-flex h-12 items-center justify-center rounded-full bg-accent-warm px-7 font-display text-sm uppercase tracking-[0.18em] text-bg transition hover:bg-text"
+                    : "inline-flex h-12 items-center justify-center rounded-full border border-border-strong bg-bg/40 px-7 font-display text-sm uppercase tracking-[0.18em] text-text backdrop-blur transition hover:border-accent-warm hover:text-accent-warm"
+                }
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Screenshots — masonry-ish in a simple grid for v0. The full
           gallery treatment lands in Phase 2E. */}

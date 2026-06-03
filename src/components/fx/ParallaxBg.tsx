@@ -32,7 +32,9 @@ export function ParallaxBg({
     if (reducedMotion) return;
 
     let rafId = 0;
+    let ticking = false;
     const update = () => {
+      ticking = false;
       const el = ref.current;
       const parent = el?.parentElement;
       if (el && parent) {
@@ -42,11 +44,26 @@ export function ParallaxBg({
         const offset = -rect.top * (1 - speed);
         el.style.transform = `translate3d(0, ${offset}px, 0)`;
       }
-      rafId = requestAnimationFrame(update);
     };
-    rafId = requestAnimationFrame(update);
+    // Drive off scroll/resize, coalesced to one update per frame — instead
+    // of a perpetual rAF that read layout (getBoundingClientRect) EVERY
+    // frame even while idle. With multiple parallax sections that was N
+    // forced reflows per frame, always. Now it only works while scrolling.
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafId = requestAnimationFrame(update);
+      }
+    };
+    update(); // set initial position
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
 
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [speed]);
 
   return (

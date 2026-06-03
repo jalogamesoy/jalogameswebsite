@@ -65,13 +65,19 @@ export function Cursor() {
       }
     };
 
-    const loop = () => {
-      // Dot snaps to the pointer (responsive). Ring eases in — bumped
-      // from 0.18 to 0.42 so the ring feels glued to the pointer
-      // instead of trailing behind it.
-      const dt = 0.42;
-      ringX += (mouseX - ringX) * dt;
-      ringY += (mouseY - ringY) * dt;
+    let prev = performance.now();
+    const loop = (now: number) => {
+      // Frame-rate-INDEPENDENT smoothing: the ring approaches the pointer
+      // at a constant rate per *second* (k), so it feels identical on a
+      // 60Hz and a 120Hz display. (The old fixed per-frame lerp eased
+      // ~2x faster on 120Hz — part of why it felt inconsistent.) The dot
+      // stays exact for responsiveness.
+      const dt = Math.min(0.05, (now - prev) / 1000);
+      prev = now;
+      const k = 16; // higher = tighter follow
+      const a = 1 - Math.exp(-k * dt);
+      ringX += (mouseX - ringX) * a;
+      ringY += (mouseY - ringY) * a;
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
@@ -102,12 +108,12 @@ export function Cursor() {
       <div
         ref={ringRef}
         aria-hidden
-        className="jg-cursor-ring pointer-events-none fixed left-0 top-0 z-[100] hidden h-9 w-9 rounded-full border border-text/30 backdrop-invert-[0.05] data-[visible=true]:block transition-[width,height,border-color,background] duration-200 ease-out data-[active=true]:h-14 data-[active=true]:w-14 data-[active=true]:border-accent-warm data-[active=true]:bg-accent-warm/10"
+        className="jg-cursor-ring pointer-events-none fixed left-0 top-0 z-[100] hidden h-8 w-8 rounded-full border border-accent-warm/50 data-[visible=true]:block transition-[width,height,border-color,background-color] duration-200 ease-out data-[active=true]:h-14 data-[active=true]:w-14 data-[active=true]:border-accent-warm data-[active=true]:bg-accent-warm/10"
       />
       <div
         ref={dotRef}
         aria-hidden
-        className="jg-cursor-dot pointer-events-none fixed left-0 top-0 z-[100] hidden h-1.5 w-1.5 rounded-full bg-text data-[visible=true]:block"
+        className="jg-cursor-dot pointer-events-none fixed left-0 top-0 z-[100] hidden h-1.5 w-1.5 rounded-full bg-accent-warm data-[visible=true]:block"
       />
     </>
   );
