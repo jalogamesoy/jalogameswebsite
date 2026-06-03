@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PublishForm } from "./PublishForm";
+import { SocialComposer } from "@/components/admin/SocialComposer";
 import { getPostBySlug } from "@/lib/journal";
 import { SITE_URL } from "@/lib/site";
 
@@ -55,10 +55,7 @@ export default async function PublishPage({
         </p>
 
         <div className="mt-10">
-          <PublishForm
-            slug={slug}
-            title={title}
-            postUrl={postUrl}
+          <SocialComposer
             defaults={{
               linkedin,
               x,
@@ -66,6 +63,7 @@ export default async function PublishPage({
               redditBody,
               subreddit: "IndieDev",
             }}
+            context={{ title, url: postUrl }}
           />
         </div>
       </div>

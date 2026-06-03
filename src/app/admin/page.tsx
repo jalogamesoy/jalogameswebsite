@@ -9,10 +9,24 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+const PRIMARY_ACTIONS = [
+  {
+    href: "/admin/compose",
+    title: "Compose a post",
+    desc: "Write once and fire now — or schedule in advance — to LinkedIn, X and Reddit. The daily driver.",
+    cta: "Compose →",
+  },
+  {
+    href: "/admin/scheduled",
+    title: "Scheduled queue",
+    desc: "See everything queued to autopost, and cancel any job before it fires.",
+    cta: "View queue →",
+  },
+];
+
 /**
- * Tiny admin index — lists every journal post with a link to its
- * publish page. Sits behind the same Basic Auth as everything under
- * /admin so it's safe to surface.
+ * Admin home. Primary actions up top (compose + scheduled queue), then
+ * the journal-post syndication list. Behind Basic Auth (middleware.ts).
  */
 export default function AdminIndexPage() {
   const posts = getAllPosts();
@@ -22,33 +36,62 @@ export default function AdminIndexPage() {
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <p className="eyebrow mb-4">Admin</p>
         <h1 className="font-display text-3xl uppercase tracking-[0.02em] text-text sm:text-4xl">
-          Publish a journal post
+          Studio control room
         </h1>
         <p className="mt-3 text-sm text-text-muted">
-          Pick the post you want to syndicate. Each publish page edits the
-          per-platform drafts and fires upload-post.com on submit.
+          Schedule social posts to autopost in advance, or syndicate a journal
+          post to all your channels at once.
         </p>
 
-        <ul className="mt-10 space-y-3">
+        {/* Primary actions */}
+        <div className="mt-10 grid gap-3 sm:grid-cols-2">
+          {PRIMARY_ACTIONS.map((a) => (
+            <Link
+              key={a.href}
+              href={a.href}
+              className="group rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent-warm"
+            >
+              <p className="font-display text-base uppercase tracking-[0.02em] text-text">
+                {a.title}
+              </p>
+              <p className="mt-2 text-sm text-text-muted">{a.desc}</p>
+              <span
+                aria-hidden
+                className="mt-4 inline-block font-display text-xs uppercase tracking-[0.18em] text-accent-warm transition-transform group-hover:translate-x-1"
+              >
+                {a.cta}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Journal syndication */}
+        <h2 className="mt-12 font-display text-sm uppercase tracking-[0.18em] text-text-muted">
+          Syndicate a journal post
+        </h2>
+        <p className="mt-2 text-xs text-text-dim">
+          Pre-fills per-platform drafts from a published article.
+        </p>
+        <ul className="mt-4 space-y-3">
           {posts.map((post) => (
             <li key={post.slug}>
               <Link
                 href={`/admin/publish/${post.slug}`}
                 className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-accent-warm"
               >
-                <div>
+                <div className="min-w-0">
                   <p className="font-display text-base uppercase tracking-[0.02em] text-text">
                     {post.frontmatter.title}
                   </p>
-                  <p className="mt-1 text-xs text-text-dim">
+                  <p className="mt-1 truncate text-xs text-text-dim">
                     /journal/{post.slug}
                   </p>
                 </div>
                 <span
                   aria-hidden
-                  className="font-display text-xs uppercase tracking-[0.18em] text-accent-warm transition-transform group-hover:translate-x-1"
+                  className="font-display shrink-0 text-xs uppercase tracking-[0.18em] text-accent-warm transition-transform group-hover:translate-x-1"
                 >
-                  Publish →
+                  Syndicate →
                 </span>
               </Link>
             </li>
