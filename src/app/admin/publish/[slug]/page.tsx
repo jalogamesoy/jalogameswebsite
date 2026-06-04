@@ -28,18 +28,23 @@ export default async function PublishPage({
   if (!post) notFound();
 
   const postUrl = `${SITE_URL}/journal/${slug}`;
-  const { title, excerpt } = post.frontmatter;
+  const { title, excerpt, social } = post.frontmatter;
 
-  // Default drafts. These mirror the conventions we used for the first
-  // manual test:
-  //  - LinkedIn: hook-first, then receipts/details, then link, then 2-3 hashtags
+  // Default drafts. If the article carries AI-drafted `social` frontmatter
+  // (from scripts/draft.mjs), pre-fill those; otherwise fall back to simple
+  // conventions:
+  //  - LinkedIn: hook-first, then link, then 2-3 hashtags
   //  - X: ~200 char punchy version; upload-post strips URLs from X
   //  - Reddit: title same as post title, body = conversational expansion
-  const linkedin = `${excerpt}\n\nMore in the full post → ${postUrl}\n\n#gamedev #indiegamedev`;
+  const linkedin =
+    social?.linkedin ??
+    `${excerpt}\n\nMore in the full post → ${postUrl}\n\n#gamedev #indiegamedev`;
 
-  const x = `${title}.\n\n${excerpt}\n\n#gamedev #indiedev`;
+  const x = social?.x ?? `${title}.\n\n${excerpt}\n\n#gamedev #indiedev`;
 
-  const redditBody = `${excerpt}\n\nWriting more about this on the studio journal: ${postUrl}\n\nHappy to answer questions.`;
+  const redditBody =
+    social?.redditBody ??
+    `${excerpt}\n\nWriting more about this on the studio journal: ${postUrl}\n\nHappy to answer questions.`;
 
   return (
     <main className="bg-bg">
@@ -59,9 +64,9 @@ export default async function PublishPage({
             defaults={{
               linkedin,
               x,
-              redditTitle: title,
+              redditTitle: social?.redditTitle ?? title,
               redditBody,
-              subreddit: "IndieDev",
+              subreddit: social?.subreddit ?? "IndieDev",
             }}
             context={{ title, url: postUrl }}
           />

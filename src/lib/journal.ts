@@ -42,6 +42,14 @@ export type JournalFrontmatter = {
   faq?: JournalFaq[];
   /** Explicit related-post slugs (otherwise inferred from shared tags). */
   related?: string[];
+  /** Per-platform social drafts — pre-fills the /admin publish composer. */
+  social?: {
+    linkedin?: string;
+    x?: string;
+    redditTitle?: string;
+    redditBody?: string;
+    subreddit?: string;
+  };
 };
 
 export type JournalPost = {
