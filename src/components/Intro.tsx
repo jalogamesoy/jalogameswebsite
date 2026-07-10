@@ -37,23 +37,40 @@ export function Intro() {
     } else {
       html.classList.add("intro-active");
 
-      for (const [cls, at] of TIMELINE) {
+      // The quote is the centrepiece — it must paint in Cormorant, not
+      // the Georgia fallback. On a cold visit the webfont isn't ready
+      // when the intro mounts, so hold the timeline until fonts load
+      // (capped so a slow/failed font never stalls the show).
+      let started = false;
+      const start = () => {
+        if (started || opened.current) return;
+        started = true;
+
+        for (const [cls, at] of TIMELINE) {
+          queue.push(
+            window.setTimeout(() => {
+              overlay.current?.classList.add(cls);
+              if (cls === "p-open") {
+                opened.current = true;
+                html.classList.add("intro-done");
+              }
+            }, at)
+          );
+        }
         queue.push(
           window.setTimeout(() => {
-            overlay.current?.classList.add(cls);
-            if (cls === "p-open") {
-              opened.current = true;
-              html.classList.add("intro-done");
-            }
-          }, at)
+            html.classList.remove("intro-active");
+            setMounted(false);
+          }, UNMOUNT_AT)
         );
-      }
-      queue.push(
-        window.setTimeout(() => {
-          html.classList.remove("intro-active");
-          setMounted(false);
-        }, UNMOUNT_AT)
-      );
+      };
+
+      const cap = window.setTimeout(start, 900);
+      queue.push(cap);
+      document.fonts.ready.then(() => {
+        clearTimeout(cap);
+        start();
+      });
     }
 
     return () => {
