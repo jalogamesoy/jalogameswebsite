@@ -1,13 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Russo_One } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { Header } from "@/components/nav/Header";
-import { Footer } from "@/components/nav/Footer";
+import { Header } from "@/components/Header";
 import { Cursor } from "@/components/fx/Cursor";
-import { RevealController } from "@/components/fx/RevealController";
-import { SITE_CONFIG, SITE_URL } from "@/lib/site";
-import { social, studio } from "@/content/site";
+import { ScrollFX } from "@/components/fx/ScrollFX";
+import { SmoothScroll } from "@/components/fx/SmoothScroll";
+import { COMPANY, EMAIL, LINKS, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,43 +26,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Russo One — single weight (400, visually heavy by default). Closer
-// to the reference's Eurostile/Bank Gothic feel than Saira was.
-const russoOne = Russo_One({
-  variable: "--font-russo-one",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const TITLE_DEFAULT = `${SITE_CONFIG.name} — Next-Generation Game Studio from Finland`;
+const TITLE = `${SITE_NAME} — Independent Game Studio · Helsinki`;
+const DESCRIPTION =
+  "Founder-led independent game studio in Helsinki, Finland. Original worlds, premium craft, built to last. Now building Grace Run.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: TITLE_DEFAULT,
-    template: `%s — ${SITE_CONFIG.name}`,
-  },
-  description: studio.tagline,
-  applicationName: SITE_CONFIG.name,
-  authors: [{ name: SITE_CONFIG.name, url: SITE_URL }],
-  creator: SITE_CONFIG.name,
-  publisher: SITE_CONFIG.name,
-  // Per-page metadata sets its own alternates.canonical. Root only
-  // provides metadataBase; canonical defaults to the current path so
-  // /games gets canonical /games, /games/ramba-bull gets its own, etc.
+  title: TITLE,
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "Jalo Tuomi", url: LINKS.founderLinkedIn }],
+  creator: SITE_NAME,
+  publisher: COMPANY,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    locale: SITE_CONFIG.locale,
+    locale: "en_US",
     url: SITE_URL,
-    siteName: SITE_CONFIG.name,
-    title: TITLE_DEFAULT,
-    description: studio.tagline,
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE_DEFAULT,
-    description: studio.tagline,
+    title: TITLE,
+    description: DESCRIPTION,
   },
   robots: {
     index: true,
@@ -74,28 +69,31 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#070b1f",
+  themeColor: "#0c0a08",
   colorScheme: "dark",
 };
 
-/** Organization JSON-LD — every page inherits this via the root layout.
- *  `sameAs` carries our verified external profiles, which is one of the
- *  strongest signals AI search engines use to confirm a brand's identity. */
+/** Organization JSON-LD — identity signals for search & AI engines. */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: SITE_CONFIG.name,
-  alternateName: "Jalo Games",
+  name: COMPANY,
+  alternateName: SITE_NAME,
   url: SITE_URL,
-  description: studio.tagline,
-  foundingDate: String(studio.foundingYear),
-  email: studio.email,
+  description: DESCRIPTION,
+  foundingDate: "2024",
+  email: EMAIL,
+  founder: {
+    "@type": "Person",
+    name: "Jalo Tuomi",
+    sameAs: LINKS.founderLinkedIn,
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Helsinki",
     addressCountry: "FI",
   },
-  sameAs: social.map((s) => s.href),
+  sameAs: [LINKS.companyLinkedIn, LINKS.founderLinkedIn],
 } as const;
 
 export default function RootLayout({
@@ -106,23 +104,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${russoOne.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-text">
+      <body className="bg-ink text-ivory">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        {/* Phase 3A motion FX. Each component is a no-DOM client effect
-            (Lenis, IO controller) or renders a fixed-position layer
-            (cursor). All respect prefers-reduced-motion internally. */}
-        <RevealController />
-        <Cursor />
+        <div className="progress" aria-hidden />
         <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <main>{children}</main>
+        {/* No-DOM client effects: Lenis, reveals/parallax, custom cursor. */}
+        <SmoothScroll />
+        <ScrollFX />
+        <Cursor />
+        <div className="grain" aria-hidden />
         <Analytics />
       </body>
     </html>

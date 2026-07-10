@@ -1,96 +1,124 @@
 import { ImageResponse } from "next/og";
-import { studio } from "@/content/site";
 
 export const runtime = "edge";
 
-export const alt = `${studio.name} — Next-Generation Game Studio`;
+export const alt = "Jalo Games — Independent Game Studio · Helsinki";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/**
- * Default Open Graph image used when someone shares the homepage or
- * any route that doesn't define its own opengraph-image. Renders the
- * wordmark + tagline on the brand-navy background with an accent glow.
- *
- * Game detail pages override this via their own metadata.openGraph
- * .images (set to the game's card.png in [slug]/page.tsx).
- */
-export default function OpengraphImage() {
+/** Fetch Cormorant Garamond from Google Fonts for the OG card.
+ *  Falls back to the bundled default face if the fetch fails. */
+async function loadSerif(): Promise<ArrayBuffer | null> {
+  try {
+    const css = await fetch(
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap",
+      { headers: { "User-Agent": "Mozilla/4.0" } } // old UA → TTF urls
+    ).then((r) => r.text());
+    const url = css.match(/src: url\((.+?)\) format\('(?:truetype|opentype)'\)/)?.[1];
+    if (!url) return null;
+    return await fetch(url).then((r) => r.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
+export default async function OpengraphImage() {
+  const serif = await loadSerif();
+
   return new ImageResponse(
     (
       <div
         style={{
           width: "100%",
           height: "100%",
-          background:
-            "radial-gradient(ellipse at top, rgba(245,148,74,0.18), transparent 55%), #070b1f",
-          color: "#fafafa",
+          background: "#0c0a08",
+          backgroundImage:
+            "radial-gradient(90% 70% at 50% 115%, rgba(194,161,94,0.14), transparent 60%)",
+          color: "#ece5d8",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "center",
           justifyContent: "center",
-          padding: "80px",
-          fontFamily: "Arial, Helvetica, sans-serif",
+          fontFamily: serif ? "Cormorant" : "serif",
+          position: "relative",
         }}
       >
-        {/* Eyebrow */}
-        <div
-          style={{
-            fontSize: 24,
-            letterSpacing: 6,
-            textTransform: "uppercase",
-            color: "#9aa3c7",
-            marginBottom: 32,
-          }}
-        >
-          — Next-Generation Game Studio —
-        </div>
-
-        {/* Wordmark — stacked JALO / GAMES, big and confident */}
-        <div
-          style={{
-            fontSize: 168,
-            fontWeight: 900,
-            letterSpacing: -4,
-            lineHeight: 0.9,
-            textTransform: "uppercase",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <span>Jalo</span>
-          <span style={{ color: "#f5944a" }}>Games</span>
-        </div>
-
-        {/* Tagline */}
-        <div
-          style={{
-            marginTop: 40,
-            fontSize: 32,
-            color: "#9aa3c7",
-            maxWidth: 900,
-            lineHeight: 1.35,
-          }}
-        >
-          {studio.tagline}
-        </div>
-
-        {/* Bottom-right accent */}
+        {/* The seam */}
         <div
           style={{
             position: "absolute",
-            right: 80,
-            bottom: 80,
-            fontSize: 22,
-            letterSpacing: 6,
+            left: "50%",
+            top: 40,
+            bottom: 40,
+            width: 1,
+            background:
+              "linear-gradient(to bottom, transparent, rgba(194,161,94,0.5) 30%, rgba(194,161,94,0.5) 70%, transparent)",
+          }}
+        />
+
+        <div
+          style={{
+            fontSize: 20,
+            letterSpacing: 10,
             textTransform: "uppercase",
-            color: "#5e6896",
+            color: "rgba(236,229,216,0.55)",
+            marginBottom: 44,
+            background: "#0c0a08",
+            padding: "0 28px",
+          }}
+        >
+          Independent Game Studio — Helsinki
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 34,
+            fontSize: 172,
+            lineHeight: 0.9,
+            textTransform: "uppercase",
+            letterSpacing: -2,
+            background: "#0c0a08",
+            padding: "0 36px",
+          }}
+        >
+          <span>Jalo</span>
+          <span style={{ fontStyle: "italic" }}>Games</span>
+        </div>
+
+        <div
+          style={{
+            marginTop: 52,
+            fontSize: 26,
+            fontStyle: "italic",
+            color: "rgba(236,229,216,0.6)",
+            background: "#0c0a08",
+            padding: "0 28px",
+          }}
+        >
+          Small is the gate, and narrow the road.
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: 44,
+            fontSize: 18,
+            letterSpacing: 8,
+            textTransform: "uppercase",
+            color: "rgba(194,161,94,0.9)",
           }}
         >
           jalogames.fi
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: serif
+        ? [{ name: "Cormorant", data: serif, style: "normal" as const }]
+        : undefined,
+    }
   );
 }

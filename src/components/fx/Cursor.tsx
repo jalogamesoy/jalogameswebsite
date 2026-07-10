@@ -1,114 +1,88 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /**
- * Custom cursor — a camera-style FOCUS RETICLE: a square frame broken at
- * each edge midpoint, crosshair ticks crossing those midpoints, and a
- * small centre square. Rendered in the brand amber. Tracks the pointer
- * crisply (tight, frame-rate-independent follow) and "locks on" (scales
- * up, full opacity) over interactive elements.
- *
- * Hidden on touch devices and prefers-reduced-motion. pointer-events:none
- * so it never blocks clicks; non-JS visitors keep the native cursor.
+ * Gold dot + trailing ivory ring. The ring blooms over anything
+ * marked [data-hover] (and links/buttons). Touch devices and
+ * reduced-motion users keep the native cursor.
  */
 export function Cursor() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
+  const dot = useRef<HTMLDivElement>(null);
+  const ring = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
 
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (isTouch || reduced) return;
+    const html = document.documentElement;
+    html.classList.add("cursor-on");
 
-    setEnabled(true);
-    document.documentElement.classList.add("cursor-custom");
+    let x = -100;
+    let y = -100;
+    let rx = -100;
+    let ry = -100;
+    let seen = false;
+    let raf = 0;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let x = mouseX;
-    let y = mouseY;
-    let rafId = 0;
-    let visible = false;
-    let prev = performance.now();
-
-    const onMove = (e: PointerEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!visible) {
-        visible = true;
-        ref.current?.setAttribute("data-visible", "true");
+    const move = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!seen) {
+        seen = true;
+        rx = x;
+        ry = y;
+        if (dot.current) dot.current.style.opacity = "1";
+        if (ring.current) ring.current.style.opacity = "1";
       }
-    };
-    const onLeave = () => {
-      visible = false;
-      ref.current?.removeAttribute("data-visible");
-    };
-    const onOver = (e: Event) => {
-      const t = e.target as HTMLElement | null;
-      const interactive = !!t?.closest(
-        "a, button, [role='button'], input, textarea, select, [data-cursor-hover]"
-      );
-      if (ref.current) {
-        if (interactive) ref.current.setAttribute("data-active", "true");
-        else ref.current.removeAttribute("data-active");
+      if (dot.current) {
+        dot.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
       }
     };
 
-    const loop = (now: number) => {
-      // Tight, frame-rate-INDEPENDENT follow: smooth but crisp, like a
-      // targeting reticle snapping onto the pointer — same on 60/120Hz.
-      const dt = Math.min(0.05, (now - prev) / 1000);
-      prev = now;
-      const a = 1 - Math.exp(-32 * dt);
-      x += (mouseX - x) * a;
-      y += (mouseY - y) * a;
-      if (ref.current) {
-        ref.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    const loop = () => {
+      rx += (x - rx) * 0.16;
+      ry += (y - ry) * 0.16;
+      if (ring.current) {
+        ring.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
       }
-      rafId = requestAnimationFrame(loop);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    const HOVERABLE = "a, button, [data-hover]";
+    const over = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest?.(HOVERABLE)) {
+        ring.current?.classList.add("is-hover");
+      }
+    };
+    const out = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest?.(HOVERABLE)) {
+        ring.current?.classList.remove("is-hover");
+      }
     };
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerleave", onLeave);
-    document.addEventListener("pointerover", onOver, { passive: true });
-    rafId = requestAnimationFrame(loop);
+    window.addEventListener("mousemove", move, { passive: true });
+    document.addEventListener("mouseover", over, { passive: true });
+    document.addEventListener("mouseout", out, { passive: true });
 
     return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerleave", onLeave);
-      document.removeEventListener("pointerover", onOver);
-      document.documentElement.classList.remove("cursor-custom");
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseover", over);
+      document.removeEventListener("mouseout", out);
+      html.classList.remove("cursor-on");
     };
   }, []);
 
-  if (!enabled) return null;
-
   return (
-    <div
-      ref={ref}
-      aria-hidden
-      className="jg-reticle pointer-events-none fixed left-0 top-0 z-[100] hidden text-accent-warm opacity-80 data-[visible=true]:block data-[active=true]:opacity-100 [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-out data-[active=true]:[&>svg]:scale-[1.35]"
-    >
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 40 40"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-      >
-        {/* Square frame, each edge split with a gap at its midpoint */}
-        <path d="M6 6 H16 M24 6 H34 M6 34 H16 M24 34 H34 M6 6 V16 M6 24 V34 M34 6 V16 M34 24 V34" />
-        {/* Crosshair ticks crossing each edge midpoint (in + out) */}
-        <path d="M20 2 V10 M20 30 V38 M2 20 H10 M30 20 H38" />
-        {/* Centre square */}
-        <rect x="16.5" y="16.5" width="7" height="7" fill="currentColor" stroke="none" />
-      </svg>
-    </div>
+    <>
+      <div ref={dot} className="cursor-dot" aria-hidden />
+      <div ref={ring} className="cursor-ring" aria-hidden />
+    </>
   );
 }

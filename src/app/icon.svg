@@ -1,13 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="JaloGames">
-  <rect width="64" height="64" rx="14" fill="#070b1f"/>
-  <rect x="6" y="6" width="52" height="52" rx="11" fill="none" stroke="#f5944a" stroke-width="1.5" opacity="0.6"/>
-  <text
-    x="32" y="44"
-    text-anchor="middle"
-    font-family="'Eurostile Extended', 'Bank Gothic', 'Arial Black', Helvetica, sans-serif"
-    font-weight="900"
-    font-size="28"
-    letter-spacing="-1.5"
-    fill="#fafafa"
-  >JG</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Jalo Games">
+  <rect width="64" height="64" fill="#0C0A08"/>
+  <rect x="16" y="13" width="12" height="38" fill="#ECE5D8"/>
+  <rect x="36" y="13" width="12" height="38" fill="#ECE5D8"/>
+  <rect x="31" y="13" width="2" height="38" fill="#C2A15E"/>
 </svg>
