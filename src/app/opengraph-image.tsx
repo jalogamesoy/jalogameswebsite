@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Jalo Games — Independent Game Studio · Helsinki";
+export const alt = "Jalo Games — Christian Mobile Games · Helsinki";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -31,10 +31,10 @@ export default async function OpengraphImage() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0c0a08",
+          background: "#fbf7f0",
           backgroundImage:
-            "radial-gradient(90% 70% at 50% 115%, rgba(194,161,94,0.14), transparent 60%)",
-          color: "#ece5d8",
+            "radial-gradient(70% 60% at 50% -8%, rgba(194,161,94,0.28), rgba(251,247,240,0) 65%), radial-gradient(85% 60% at 50% 118%, rgba(214,95,51,0.14), rgba(251,247,240,0) 60%)",
+          color: "#33281a",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -43,71 +43,69 @@ export default async function OpengraphImage() {
           position: "relative",
         }}
       >
-        {/* The seam */}
+        {/* The seam of light */}
         <div
           style={{
             position: "absolute",
             left: "50%",
-            top: 40,
-            bottom: 40,
-            width: 1,
+            top: 0,
+            height: 150,
+            width: 2,
             background:
-              "linear-gradient(to bottom, transparent, rgba(194,161,94,0.5) 30%, rgba(194,161,94,0.5) 70%, transparent)",
+              "linear-gradient(to bottom, rgba(169,132,67,0.85), rgba(169,132,67,0))",
           }}
         />
 
         <div
           style={{
-            fontSize: 20,
-            letterSpacing: 10,
+            fontSize: 21,
+            letterSpacing: 9,
             textTransform: "uppercase",
-            color: "rgba(236,229,216,0.55)",
-            marginBottom: 44,
-            background: "#0c0a08",
-            padding: "0 28px",
+            color: "rgba(51,40,26,0.55)",
+            marginBottom: 40,
           }}
         >
-          Independent Game Studio — Helsinki
+          Jalo Games — Helsinki, Finland
         </div>
 
         <div
           style={{
             display: "flex",
-            alignItems: "baseline",
-            gap: 34,
-            fontSize: 172,
-            lineHeight: 0.9,
-            textTransform: "uppercase",
-            letterSpacing: -2,
-            background: "#0c0a08",
-            padding: "0 36px",
+            flexDirection: "column",
+            alignItems: "center",
+            fontSize: 104,
+            lineHeight: 1.06,
+            textAlign: "center",
           }}
         >
-          <span>Jalo</span>
-          <span style={{ fontStyle: "italic" }}>Games</span>
+          <div style={{ display: "flex", gap: 24 }}>
+            <span>We make</span>
+            <span style={{ fontStyle: "italic", color: "#a98443" }}>
+              Christian
+            </span>
+          </div>
+          <span>mobile games.</span>
         </div>
 
         <div
           style={{
-            marginTop: 52,
-            fontSize: 26,
+            marginTop: 44,
+            fontSize: 25,
             fontStyle: "italic",
-            color: "rgba(236,229,216,0.6)",
-            background: "#0c0a08",
-            padding: "0 28px",
+            color: "rgba(51,40,26,0.55)",
           }}
         >
-          Small is the gate, and narrow the road.
+          Small is the gate, and narrow the road. — Mt 7:14
         </div>
 
         <div
           style={{
             position: "absolute",
-            bottom: 44,
-            fontSize: 18,
-            letterSpacing: 8,
+            bottom: 42,
+            fontSize: 17,
+            letterSpacing: 7,
             textTransform: "uppercase",
-            color: "rgba(194,161,94,0.9)",
+            color: "rgba(169,132,67,0.95)",
           }}
         >
           jalogames.fi

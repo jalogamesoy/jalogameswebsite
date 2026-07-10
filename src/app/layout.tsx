@@ -2,16 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
-import { Cursor } from "@/components/fx/Cursor";
 import { ScrollFX } from "@/components/fx/ScrollFX";
-import { SmoothScroll } from "@/components/fx/SmoothScroll";
 import { COMPANY, EMAIL, LINKS, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -26,9 +24,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const TITLE = `${SITE_NAME} — Independent Game Studio · Helsinki`;
+const TITLE = `${SITE_NAME} — Christian Mobile Games · Helsinki`;
 const DESCRIPTION =
-  "Founder-led independent game studio in Helsinki, Finland. Original worlds, premium craft, built to last. Now building Grace Run.";
+  "Founder-led studio in Helsinki making premium Christian mobile games — faith-rooted worlds, honest craft, play you can share. Now building Grace Run.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -69,8 +67,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0c0a08",
-  colorScheme: "dark",
+  themeColor: "#fbf7f0",
+  colorScheme: "light",
 };
 
 /** Organization JSON-LD — identity signals for search & AI engines. */
@@ -83,6 +81,7 @@ const organizationJsonLd = {
   description: DESCRIPTION,
   foundingDate: "2024",
   email: EMAIL,
+  knowsAbout: ["Christian games", "mobile games", "game development"],
   founder: {
     "@type": "Person",
     name: "Jalo Tuomi",
@@ -106,7 +105,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="bg-ink text-ivory">
+      <body className="bg-bone text-umber">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -116,10 +115,8 @@ export default function RootLayout({
         <div className="progress" aria-hidden />
         <Header />
         <main>{children}</main>
-        {/* No-DOM client effects: Lenis, reveals/parallax, custom cursor. */}
-        <SmoothScroll />
+        {/* No-DOM client effect: scroll reveals + progress thread. */}
         <ScrollFX />
-        <Cursor />
         <div className="grain" aria-hidden />
         <Analytics />
       </body>

@@ -1,9 +1,10 @@
 import { Contact } from "@/components/Contact";
-import { Ethos } from "@/components/Ethos";
+import { Founder } from "@/components/Founder";
 import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
 import { Marquee } from "@/components/Marquee";
-import { Statement } from "@/components/Statement";
+import { Pillars } from "@/components/Pillars";
+import { Receipts } from "@/components/Receipts";
 import { Work } from "@/components/Work";
 
 export default function Home() {
@@ -12,9 +13,10 @@ export default function Home() {
       <Intro />
       <Hero />
       <Marquee />
-      <Statement />
+      <Pillars />
       <Work />
-      <Ethos />
+      <Receipts />
+      <Founder />
       <Contact />
     </>
   );
